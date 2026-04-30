@@ -134,12 +134,6 @@
       letter-spacing: 1px;
     }
 
-    .subtitle {
-      font-size: 0.82rem;
-      text-align: center;
-      opacity: 0.8;
-    }
-
     .group-scene {
       position: relative;
       overflow: hidden;
@@ -153,20 +147,6 @@
 
     .group-scene::before {
       display: none;
-    }
-
-    .message-clouds {
-      display: none;
-    }
-
-    .mini-bubble {
-      padding: 8px;
-      font-size: 0.72rem;
-      line-height: 1.2;
-      background: #fffef8;
-      border: 2px solid var(--ink);
-      box-shadow: 3px 3px 0 var(--shadow);
-      transform: rotate(var(--tilt, 0deg));
     }
 
     .crowd-wrap {
@@ -555,8 +535,9 @@
       }
 
       .crowd-wrap {
-        grid-template-columns: repeat(4, minmax(0, 1fr));
+        grid-template-columns: repeat(6, minmax(0, 92px));
         margin-top: 104px;
+        gap: 0;
       }
 
       .crowd-card.front-row {
@@ -599,7 +580,6 @@
       </header>
 
       <div class="group-scene pixel-panel">
-        <div class="message-clouds" id="messageClouds"></div>
         <div class="crowd-wrap" id="crowdWrap"></div>
       </div>
 
@@ -641,16 +621,6 @@
       { key: "goodbye", label: "Un message pour son départ ?" },
       { key: "emoji", label: "Un emoji qui la représente ?" }
     ];
-
-    const birthdayBubbles = [
-      "Joyeux anniv Tamara 💖",
-      "On t’aime fort",
-      "Tu vas nous manquer",
-      "Team Tamara forever",
-      "Toujours iconique",
-      "Pixel love only"
-    ];
-
     // Personnages : remplace avatarPlaceholder / shape plus tard par tes vrais sprites pixel art
     // Réponses : modifie ici facilement chaque réponse par personnage
     const people = [
@@ -831,8 +801,7 @@
 
     const profileRow = document.getElementById("profileRow");
     const crowdWrap = document.getElementById("crowdWrap");
-    const messageClouds = document.getElementById("messageClouds");
-    const questionList = document.getElementById("questionList");
+        const questionList = document.getElementById("questionList");
     const dialogBubble = document.getElementById("dialogBubble");
     const selectedSprite = document.getElementById("selectedSprite");
     const selectedName = document.getElementById("selectedName");
@@ -873,17 +842,6 @@
       }
       sprite.setAttribute("aria-label", person.name);
       return sprite;
-    }
-
-    function renderClouds() {
-      messageClouds.innerHTML = "";
-      birthdayBubbles.forEach((message, index) => {
-        const bubble = document.createElement("div");
-        bubble.className = "mini-bubble";
-        bubble.textContent = message;
-        bubble.style.setProperty("--tilt", `${index % 2 === 0 ? -3 : 3}deg`);
-        messageClouds.appendChild(bubble);
-      });
     }
 
     function renderCrowd() {
@@ -994,8 +952,6 @@
         showScreen("group");
       }
     });
-
-    renderClouds();
     renderCrowd();
     renderProfiles();
     renderQuestions();
@@ -1003,3 +959,6 @@
   </script>
 </body>
 </html>
+
+
+
