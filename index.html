@@ -3,26 +3,35 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-  <title>Happy Anniversary Tamara</title>
+  <title>🎉 Happy Anniversary Tamara</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&family=Fredoka:wght@400;600;700&display=swap');
+
     :root {
-      /* Couleurs : modifie ici la palette principale */
-      --bg-top: #ff9ddb;
-      --bg-bottom: #a871ff;
-      --panel: #fff8f3;
-      --panel-alt: #d7e8ff;
-      --pink: #ff7cc8;
-      --pink-dark: #ff59b5;
-      --violet: #915eff;
-      --violet-dark: #6b3fe2;
-      --blue: #a8d3ff;
-      --blue-dark: #73b7ff;
-      --ink: #151219;
-      --shadow: #000000;
-      --grid: rgba(255, 255, 255, 0.18);
+      --bg-top: #ffd8ea;
+      --bg-bottom: #f5e7ff;
+      --panel: rgba(255, 251, 255, 0.92);
+      --panel-alt: rgba(255, 238, 247, 0.96);
+      --pink: #ff6fb7;
+      --pink-dark: #ef4da1;
+      --pink-light: #ffb3d9;
+      --violet: #8d6bff;
+      --violet-dark: #6c4fff;
+      --violet-light: #b8a3ff;
+      --blue: #d9e7ff;
+      --blue-dark: #b8d2ff;
+      --blue-bright: #64b5ff;
+      --gold: #ffd700;
+      --gold-light: #ffed4e;
+      --cyan: #00ffff;
+      --ink: #241827;
+      --shadow: rgba(70, 33, 76, 0.25);
+      --shadow-deep: rgba(70, 33, 76, 0.35);
+      --line: rgba(126, 84, 154, 0.2);
       --max-width: 430px;
-      --pixel-shadow: 4px 4px 0 var(--shadow);
-      --pixel-border: 3px solid var(--ink);
+      --card-radius: 22px;
+      --soft-shadow: 0 18px 40px var(--shadow);
+      --glow-shadow: 0 0 30px rgba(255, 107, 183, 0.4), 0 0 60px rgba(141, 107, 255, 0.2);
     }
 
     * {
@@ -32,53 +41,45 @@
     html, body {
       margin: 0;
       min-height: 100%;
-      font-family: "Courier New", Courier, monospace;
+      font-family: "Fredoka", "Trebuchet MS", sans-serif;
       background:
-        linear-gradient(180deg, var(--bg-top), var(--bg-bottom)),
-        repeating-linear-gradient(
-          90deg,
-          transparent 0 18px,
-          var(--grid) 18px 19px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 18px,
-          var(--grid) 18px 19px
-        );
+        radial-gradient(circle at top left, rgba(255, 255, 255, 0.9), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255, 205, 231, 0.7), transparent 24%),
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom));
       color: var(--ink);
+      overflow-x: hidden;
+      position: relative;
     }
 
-    body::before,
-    body::after {
-      content: "";
+    html, body::before {
+      animation: backgroundFloat 8s ease-in-out infinite alternate;
+    }
+
+    @keyframes backgroundFloat {
+      from { background-position: 0% 0%; }
+      to { background-position: 3% 3%; }
+    }
+
+    .stars-bg {
       position: fixed;
-      pointer-events: none;
+      inset: 0;
       z-index: 0;
+      pointer-events: none;
+      opacity: 0.6;
     }
 
-    body::before {
-      width: 150px;
-      height: 150px;
-      top: 18px;
-      right: -40px;
-      background:
-        radial-gradient(circle at center, #fff9 0 30%, transparent 31%),
-        conic-gradient(from 0deg, #fff6, #ffb8e5, #c4b4ff, #fff6);
-      border: var(--pixel-border);
-      box-shadow: var(--pixel-shadow);
-      opacity: 0.7;
-      clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+    .star {
+      position: absolute;
+      width: 2px;
+      height: 2px;
+      background: white;
+      border-radius: 50%;
+      animation: twinkle 3s infinite;
     }
 
-    body::after {
-      width: 110px;
-      height: 110px;
-      left: -22px;
-      bottom: 96px;
-      background: linear-gradient(135deg, #fff2, #ffc1e7 50%, #92bcff);
-      border: var(--pixel-border);
-      box-shadow: var(--pixel-shadow);
-      transform: rotate(12deg);
+    @keyframes twinkle {
+      0%, 100% { opacity: 0.3; }
+      50% { opacity: 1; }
     }
 
     .app-shell {
@@ -97,25 +98,54 @@
       min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
       flex-direction: column;
       gap: 14px;
+      animation: fadeInUp 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      opacity: 1;
     }
 
     .screen.active {
       display: flex;
     }
 
-    .pixel-panel,
-    .speech-bubble,
-    .profile-card,
-    .message-card,
-    .question-list button,
-    .crowd-card {
-      border: var(--pixel-border);
-      box-shadow: var(--pixel-shadow);
+    .screen.exiting {
+      animation: fadeOutDown 0.4s ease-out forwards;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fadeOutDown {
+      from {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: translateY(30px);
+      }
     }
 
     .pixel-panel {
       background: var(--panel);
-      padding: 12px;
+      padding: 14px;
+      border: 2px solid rgba(141, 107, 255, 0.3);
+      border-radius: 20px;
+      box-shadow: var(--soft-shadow);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .pixel-panel:hover {
+      border-color: var(--pink);
+      box-shadow: var(--glow-shadow);
+      transform: translateY(-2px);
     }
 
     h1, h2, h3, p {
@@ -123,30 +153,143 @@
     }
 
     .hero-title {
-      background: var(--panel);
-      border: var(--pixel-border);
-      box-shadow: var(--pixel-shadow);
-      padding: 14px;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(255, 238, 247, 0.9));
+      border: 3px solid rgba(255, 107, 183, 0.3);
+      box-shadow: 0 8px 32px rgba(255, 107, 183, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      border-radius: 28px;
+      padding: 20px 18px;
       text-align: center;
-      text-transform: uppercase;
-      font-size: clamp(1.5rem, 6vw, 2rem);
-      line-height: 1.1;
-      letter-spacing: 1px;
+      display: grid;
+      place-items: center;
+      gap: 12px;
+      animation: heroGlow 3s ease-in-out infinite;
+    }
+
+    @keyframes heroGlow {
+      0%, 100% {
+        box-shadow: 0 8px 32px rgba(255, 107, 183, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      }
+      50% {
+        box-shadow: 0 12px 48px rgba(255, 107, 183, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+      }
+    }
+
+    .hero-title h1 {
+      font-size: 0;
+      line-height: 0;
+    }
+
+    .hero-birthday {
+      width: min(100%, 320px);
+      display: block;
+      object-fit: contain;
+      filter: drop-shadow(0 8px 16px rgba(141, 107, 255, 0.2)) brightness(1.05);
+      animation: heroBounce 2s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+    }
+
+    @keyframes heroBounce {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50% { transform: translateY(-8px) scale(1.02); }
     }
 
     .group-scene {
       position: relative;
       overflow: hidden;
-      border: none;
       border-radius: 24px;
-      box-shadow: none;
-      background: #fdf7ff;
-      min-height: 260px;
+      box-shadow: 0 12px 48px var(--shadow-deep), inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      background:
+        radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.5), transparent 18%),
+        linear-gradient(180deg, rgba(34, 15, 52, 0.1), rgba(255, 255, 255, 0));
+      min-height: 280px;
       padding: 18px 10px 14px;
+      border: 2px solid rgba(255, 107, 183, 0.2);
+      animation: scenePulse 4s ease-in-out infinite;
+    }
+
+    @keyframes scenePulse {
+      0%, 100% { border-color: rgba(255, 107, 183, 0.2); }
+      50% { border-color: rgba(141, 107, 255, 0.4); }
     }
 
     .group-scene::before {
-      display: none;
+      content: "";
+      position: absolute;
+      inset: 0;
+      background:
+        linear-gradient(78deg, transparent 18%, rgba(255, 120, 190, 0.25) 28%, transparent 42%),
+        linear-gradient(104deg, transparent 34%, rgba(120, 182, 255, 0.28) 45%, transparent 58%),
+        linear-gradient(128deg, transparent 52%, rgba(255, 223, 120, 0.24) 60%, transparent 70%);
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.95;
+      transform-origin: center top;
+      animation: discoBeams 7.5s ease-in-out infinite alternate;
+      filter: saturate(1.2) brightness(1.1);
+    }
+
+    .group-scene::after {
+      content: "";
+      position: absolute;
+      left: 4%;
+      right: 4%;
+      bottom: 8px;
+      height: 100px;
+      background:
+        radial-gradient(circle at 20% 30%, rgba(255, 84, 170, 0.35), transparent 28%),
+        radial-gradient(circle at 50% 42%, rgba(120, 182, 255, 0.32), transparent 34%),
+        radial-gradient(circle at 80% 26%, rgba(255, 214, 118, 0.3), transparent 26%);
+      filter: blur(14px);
+      pointer-events: none;
+      z-index: 0;
+      transform-origin: center bottom;
+      animation: discoFloorGlow 4.8s ease-in-out infinite;
+    }
+
+    .scene-lights,
+    .scene-sparkles,
+    .scene-floor {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+
+    .scene-lights {
+      z-index: 0;
+      background:
+        radial-gradient(circle at 15% 12%, rgba(255, 110, 190, 0.5), transparent 10%),
+        radial-gradient(circle at 48% 10%, rgba(120, 182, 255, 0.45), transparent 11%),
+        radial-gradient(circle at 84% 14%, rgba(255, 223, 120, 0.42), transparent 9%);
+      mix-blend-mode: screen;
+      animation: discoLightsPulse 3.6s ease-in-out infinite alternate;
+    }
+
+    .scene-sparkles {
+      z-index: 0;
+      background:
+        radial-gradient(circle at 10% 18%, rgba(255,255,255,0.95) 0 2px, transparent 3px),
+        radial-gradient(circle at 22% 8%, rgba(255,255,255,0.85) 0 2.5px, transparent 4px),
+        radial-gradient(circle at 36% 16%, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 63% 11%, rgba(255,255,255,0.85) 0 2.5px, transparent 4px),
+        radial-gradient(circle at 77% 19%, rgba(255,255,255,0.9) 0 2px, transparent 3px),
+        radial-gradient(circle at 90% 9%, rgba(255,255,255,0.8) 0 2.5px, transparent 4px);
+      opacity: 0.95;
+      animation: discoSparkles 2.4s steps(2, end) infinite alternate;
+      filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.6));
+    }
+
+    .scene-floor {
+      inset: auto 0 0 0;
+      height: 110px;
+      z-index: 0;
+      background:
+        linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.08) 40%, rgba(255, 255, 255, 0.2)),
+        repeating-linear-gradient(
+          90deg,
+          rgba(255, 107, 183, 0.1) 0 10px,
+          rgba(141, 107, 255, 0.08) 10px 20px
+        );
+      opacity: 0.8;
+      animation: discoFloorLines 6s linear infinite;
     }
 
     .crowd-wrap {
@@ -159,6 +302,7 @@
       padding: 0;
       align-items: center;
       isolation: isolate;
+      z-index: 1;
     }
 
     .crowd-row {
@@ -166,6 +310,21 @@
       display: flex;
       justify-content: center;
       align-items: end;
+      position: relative;
+    }
+
+    .crowd-row.back-row {
+      z-index: 1;
+      margin-bottom: -94px;
+    }
+
+    .crowd-row.mid-row {
+      z-index: 2;
+      margin-bottom: -58px;
+    }
+
+    .crowd-row.front-row {
+      z-index: 3;
     }
 
     .crowd-card {
@@ -179,6 +338,130 @@
       box-shadow: none;
       background: transparent;
       z-index: 1;
+      animation: popInStaggered 0.6s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .crowd-card.effect-fabien,
+    .crowd-card.effect-manon,
+    .crowd-card.effect-lorenzo {
+      overflow: visible;
+    }
+
+    .effect-layer {
+      position: absolute;
+      inset: -16px -18px -10px;
+      pointer-events: none;
+      z-index: 5;
+      overflow: visible;
+    }
+
+    .effect-item {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      object-fit: contain;
+      opacity: 0;
+      transform-origin: center;
+      filter: drop-shadow(0 3px 8px rgba(255, 255, 255, 0.35));
+    }
+
+    .effect-item.v1 { left: 2%; top: -8%; animation-delay: -0.2s; }
+    .effect-item.v2 { left: 15%; top: 4%; animation-delay: -0.8s; }
+    .effect-item.v3 { left: 28%; top: -14%; animation-delay: -1.4s; }
+    .effect-item.v4 { left: 42%; top: 8%; animation-delay: -2.1s; }
+    .effect-item.v5 { left: 56%; top: -10%; animation-delay: -1.1s; }
+    .effect-item.v6 { left: 70%; top: 2%; animation-delay: -2.7s; }
+    .effect-item.v7 { left: 84%; top: -12%; animation-delay: -1.8s; }
+    .effect-item.v8 { left: 92%; top: 10%; animation-delay: -2.4s; }
+
+    .effect-fabien .effect-item {
+      animation: fabienRain 3.1s linear infinite;
+    }
+
+    .effect-fabien .effect-item.v2,
+    .effect-fabien .effect-item.v5,
+    .effect-fabien .effect-item.v8 {
+      width: 18px;
+      height: 18px;
+    }
+
+    .effect-manon .effect-item {
+      opacity: 0.95;
+      animation: manonOrbit 3.8s ease-in-out infinite;
+    }
+
+    .effect-lorenzo .effect-item {
+      opacity: 0.95;
+      animation: lorenzoBounce 2.7s ease-in-out infinite;
+    }
+
+    .crowd-card:nth-child(1) { animation-delay: 0.1s; }
+    .crowd-card:nth-child(2) { animation-delay: 0.15s; }
+    .crowd-card:nth-child(3) { animation-delay: 0.2s; }
+    .crowd-card:nth-child(4) { animation-delay: 0.25s; }
+    .crowd-card:nth-child(5) { animation-delay: 0.3s; }
+    .crowd-card:nth-child(6) { animation-delay: 0.35s; }
+    .crowd-card:nth-child(7) { animation-delay: 0.4s; }
+    .crowd-card:nth-child(8) { animation-delay: 0.45s; }
+
+    @keyframes popInStaggered {
+      from {
+        opacity: 0;
+        transform: scale(0.5) rotateY(-20deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateY(0deg);
+      }
+    }
+
+    @keyframes fabienRain {
+      0% {
+        opacity: 0;
+        transform: translateY(-22px) scale(0.7) rotate(-10deg);
+      }
+      18% {
+        opacity: 1;
+      }
+      70% {
+        opacity: 0.95;
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(156px) scale(1.05) rotate(14deg);
+      }
+    }
+
+    @keyframes manonOrbit {
+      0%, 100% {
+        transform: translateY(0) rotate(-8deg) scale(0.9);
+      }
+      25% {
+        transform: translateY(-14px) rotate(8deg) scale(1.06);
+      }
+      50% {
+        transform: translateY(4px) rotate(-3deg) scale(0.96);
+      }
+      75% {
+        transform: translateY(-10px) rotate(10deg) scale(1.04);
+      }
+    }
+
+    @keyframes lorenzoBounce {
+      0%, 100% {
+        transform: translateY(0) scale(0.92) rotate(-3deg);
+      }
+      20% {
+        transform: translateY(-8px) scale(1.04) rotate(6deg);
+      }
+      50% {
+        transform: translateY(2px) scale(0.98) rotate(-5deg);
+      }
+      80% {
+        transform: translateY(-12px) scale(1.08) rotate(4deg);
+      }
     }
 
     .crowd-row .crowd-card:first-child {
@@ -189,26 +472,68 @@
       z-index: 2;
     }
 
+    .crowd-card:hover .character-sprite {
+      transform: scale(1.12) rotateZ(5deg) translateY(-8px);
+      filter: drop-shadow(0 8px 20px rgba(255, 107, 183, 0.4));
+    }
+
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.72 / 1;
       min-height: 104px;
       max-height: 128px;
+      transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    .crowd-card.is-new-late .character-sprite {
+      min-height: 116px;
+      max-height: 142px;
+    }
+
+    .crowd-row.back-row .crowd-card .character-sprite {
+      min-height: 112px;
+      max-height: 138px;
+    }
+
+    .crowd-row.mid-row .crowd-card .character-sprite {
+      min-height: 108px;
+      max-height: 134px;
+    }
+
+    .crowd-row.back-row .crowd-card.is-new-late .character-sprite {
+      min-height: 122px;
+      max-height: 148px;
+    }
+
+    .crowd-row.mid-row .crowd-card.is-new-late .character-sprite {
+      min-height: 120px;
+      max-height: 144px;
+    }
+
+    .crowd-row.back-row .character-sprite.real-sprite img {
+      object-position: center top;
+      transform-origin: center top;
+    }
+
+    .crowd-row.mid-row .character-sprite.real-sprite img {
+      object-position: center 18%;
+      transform-origin: center top;
     }
 
     .character-sprite {
-      /* Remplace le placeholder géométrique par tes vrais sprites ici */
       display: block;
       width: 100%;
       aspect-ratio: 1 / 1.1;
       min-height: 44px;
       position: relative;
       overflow: hidden;
+      border-radius: 16px;
     }
 
     .character-sprite.placeholder {
-      border: var(--pixel-border);
-      background: var(--char-color, var(--pink));
+      border: 3px solid var(--ink);
+      background: linear-gradient(135deg, var(--char-color, var(--pink)), color-mix(in srgb, var(--char-color, var(--pink)) 80%, white));
+      box-shadow: inset 0 2px 4px rgba(255, 255, 255, 0.4), 0 4px 12px rgba(0, 0, 0, 0.1);
     }
 
     .character-sprite.placeholder::before,
@@ -227,10 +552,11 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       transform-origin: center bottom;
+      transition: transform 0.3s ease;
     }
 
     .character-sprite.placeholder.shape-circle {
-      border-radius: 50% 50% 12% 12%;
+      border-radius: 50% 50% 20% 20%;
     }
 
     .character-sprite.placeholder.shape-diamond {
@@ -247,6 +573,12 @@
       left: 22%;
       top: 28%;
       box-shadow: 24px 0 0 var(--ink);
+      animation: blinkEyes 3s infinite;
+    }
+
+    @keyframes blinkEyes {
+      0%, 50%, 100% { height: 10px; }
+      45%, 55% { height: 2px; }
     }
 
     .character-sprite.placeholder::after {
@@ -260,33 +592,61 @@
       margin-top: 5px;
       font-size: 0.62rem;
       font-weight: 700;
+      opacity: 0.9;
+      transition: opacity 0.3s ease;
+    }
+
+    .crowd-card:hover .char-name {
+      opacity: 1;
+      text-shadow: 0 2px 8px rgba(255, 107, 183, 0.3);
     }
 
     .pixel-button {
       appearance: none;
-      border: var(--pixel-border);
-      background: var(--pink);
+      border: 2px solid var(--line);
+      background: linear-gradient(135deg, rgba(255, 251, 255, 0.6), rgba(234, 227, 255, 0.4));
       color: var(--ink);
-      box-shadow: var(--pixel-shadow);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+      border-radius: 16px;
       font: inherit;
-      padding: 10px 12px;
+      font-weight: 600;
+      padding: 12px 16px;
       cursor: pointer;
-      text-transform: uppercase;
-      letter-spacing: 0.6px;
-      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+      letter-spacing: 0.3px;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .pixel-button::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(circle at var(--x, 50%) var(--y, 50%), rgba(255, 255, 255, 0.5), transparent 80%);
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .pixel-button:hover {
+      transform: translateY(-2px);
+      border-color: var(--pink);
+      box-shadow: 0 8px 24px rgba(255, 107, 183, 0.25);
+      background: linear-gradient(135deg, rgba(255, 251, 255, 0.8), rgba(255, 238, 247, 0.6));
     }
 
     .pixel-button:active {
-      transform: translate(3px, 3px);
-      box-shadow: 1px 1px 0 var(--shadow);
+      transform: translateY(1px) scale(0.98);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
     .pixel-button.secondary {
-      background: var(--panel-alt);
+      background: transparent;
+      border-color: var(--pink);
     }
 
     .pixel-button.ghost {
-      background: #fff;
+      background: transparent;
+      border-color: rgba(255, 107, 183, 0.3);
     }
 
     .button-row {
@@ -304,27 +664,70 @@
     .profile-row {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
+      gap: 12px;
+      animation: profilesSlideIn 0.8s cubic-bezier(0.34, 1.56, 0.64, 1) 0.3s backwards;
+    }
+
+    @keyframes profilesSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .profile-card {
-      background: var(--panel);
-      padding: 6px 4px;
+      background: linear-gradient(135deg, rgba(255, 251, 255, 0.8), rgba(255, 238, 247, 0.7));
+      border: 2px solid rgba(141, 107, 255, 0.3);
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(141, 107, 255, 0.15);
+      padding: 10px 6px;
       text-align: center;
       cursor: pointer;
-      transition: transform 120ms ease;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      animation: profileCardPop 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) backwards;
+    }
+
+    .profile-card:nth-child(1) { animation-delay: 0.35s; }
+    .profile-card:nth-child(2) { animation-delay: 0.4s; }
+    .profile-card:nth-child(3) { animation-delay: 0.45s; }
+    .profile-card:nth-child(4) { animation-delay: 0.5s; }
+    .profile-card:nth-child(5) { animation-delay: 0.55s; }
+    .profile-card:nth-child(6) { animation-delay: 0.6s; }
+    .profile-card:nth-child(7) { animation-delay: 0.65s; }
+    .profile-card:nth-child(8) { animation-delay: 0.7s; }
+    .profile-card:nth-child(n+9) { animation-delay: 0.75s; }
+
+    @keyframes profileCardPop {
+      from {
+        opacity: 0;
+        transform: scale(0.6) rotateZ(-10deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg);
+      }
+    }
+
+    .profile-card:hover {
+      transform: translateY(-6px) scale(1.08);
+      border-color: var(--pink);
+      box-shadow: 0 12px 28px rgba(255, 107, 183, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      background: linear-gradient(135deg, rgba(255, 251, 255, 0.95), rgba(255, 238, 247, 0.9));
     }
 
     .profile-card:active {
-      transform: translate(2px, 2px);
-      box-shadow: 2px 2px 0 var(--shadow);
+      transform: translateY(-2px) scale(1.04);
     }
 
     .profile-card .character-sprite {
       width: 100%;
-      max-width: 58px;
-      min-height: 58px;
-      margin: 0 auto 5px;
+      max-width: 62px;
+      min-height: 62px;
+      margin: 0 auto 6px;
     }
 
     .profile-card .character-sprite.real-sprite {
@@ -340,11 +743,17 @@
       transform: none;
       transform-origin: center center;
       animation: none;
+      transition: transform 0.3s ease;
+    }
+
+    .profile-card:hover .character-sprite.real-sprite img {
+      transform: scale(1.1) rotateZ(5deg);
     }
 
     .profile-name {
-      font-size: 0.66rem;
+      font-size: 0.7rem;
       font-weight: 700;
+      letter-spacing: 0.2px;
     }
 
     .interview-header {
@@ -352,74 +761,207 @@
       justify-content: space-between;
       gap: 10px;
       align-items: center;
+      animation: slideDown 0.5s ease-out;
     }
 
-    #screen-interview .pixel-panel,
-    #screen-interview .speech-bubble,
-    #screen-interview .question-list button {
-      border: 0;
-      box-shadow: none;
+    @keyframes slideDown {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #screen-interview .pixel-panel {
+      border: 2px solid rgba(141, 107, 255, 0.4);
     }
 
     .speech-bubble {
       position: relative;
-      background: #fffdf8;
-      padding: 14px;
-      min-height: 90px;
-      font-size: 0.92rem;
-      line-height: 1.35;
+      background: linear-gradient(135deg, rgba(255, 251, 255, 0.95), rgba(255, 238, 247, 0.92));
+      border: 2px solid rgba(255, 107, 183, 0.3);
+      border-radius: 28px;
+      padding: 20px;
+      min-height: 100px;
+      font-size: 0.98rem;
+      line-height: 1.6;
+      box-shadow: 0 8px 24px rgba(255, 107, 183, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.5);
+      animation: bubbleSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes bubbleSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px) rotateZ(-3deg);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0) rotateZ(0deg);
+      }
     }
 
     .speech-bubble::after {
       content: "";
       position: absolute;
-      left: 24px;
-      bottom: -14px;
-      width: 18px;
-      height: 18px;
-      background: #fffdf8;
+      left: 28px;
+      bottom: -12px;
+      width: 16px;
+      height: 16px;
+      background: rgba(255, 251, 255, 0.95);
+      border: 2px solid rgba(255, 107, 183, 0.3);
       transform: rotate(45deg);
+      box-shadow: inset 2px 2px 4px rgba(255, 255, 255, 0.6);
     }
 
     .speech-bubble.visible {
-      animation: bubbleIn 180ms steps(4, end);
+      animation: bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .interview-stage {
       display: flex;
       flex-direction: column;
-      gap: 14px;
+      gap: 16px;
     }
 
     .selected-card {
-      background: linear-gradient(180deg, #ffe7f6, #e0d8ff);
+      background: linear-gradient(135deg, rgba(255, 237, 246, 0.95), rgba(234, 227, 255, 0.92));
+      border: 3px solid rgba(255, 107, 183, 0.4);
       display: grid;
       place-items: center;
-      padding: 16px;
+      padding: 24px;
+      border-radius: 28px;
+      box-shadow: 0 12px 36px rgba(255, 107, 183, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+      animation: cardScaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: visible;
+    }
+
+    @keyframes cardScaleIn {
+      from {
+        opacity: 0;
+        transform: scale(0.8) rotateZ(-5deg);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) rotateZ(0deg);
+      }
     }
 
     .selected-card .character-sprite {
-      width: min(58vw, 190px);
+      width: min(58vw, 200px);
+      transition: transform 0.3s ease;
+      animation: spriteFloat 3s ease-in-out infinite;
+      position: relative;
+      z-index: 2;
+    }
+
+    @keyframes spriteFloat {
+      0%, 100% { transform: translateY(0) rotateZ(-2deg); }
+      50% { transform: translateY(-12px) rotateZ(2deg); }
     }
 
     .selected-name {
-      margin-top: 10px;
-      font-size: 1rem;
+      margin-top: 12px;
+      font-size: 1.1rem;
       font-weight: 700;
-      text-transform: uppercase;
+      letter-spacing: 0.8px;
+      background: linear-gradient(135deg, var(--pink), var(--violet));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: slideUp 0.5s ease-out 0.2s backwards;
+      position: relative;
+      z-index: 2;
+    }
+
+    .selected-effects {
+      position: absolute;
+      inset: -20px -28px -10px;
+      pointer-events: none;
+      z-index: 1;
+      overflow: visible;
+    }
+
+    .selected-card.effect-fabien .effect-item,
+    .selected-card.effect-manon .effect-item,
+    .selected-card.effect-lorenzo .effect-item {
+      width: 30px;
+      height: 30px;
+      opacity: 0.95;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .question-list {
       display: grid;
-      gap: 10px;
+      gap: 12px;
+      animation: questionsSlideIn 0.6s ease-out 0.3s backwards;
+    }
+
+    @keyframes questionsSlideIn {
+      from {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
 
     .question-list button {
       width: 100%;
       text-align: left;
-      background: var(--blue);
-      padding: 12px;
+      background: linear-gradient(135deg, rgba(222, 235, 255, 0.9), rgba(210, 225, 255, 0.85));
+      border: 2px solid rgba(141, 107, 255, 0.3);
+      border-radius: 18px;
+      padding: 14px 16px;
       font: inherit;
+      font-weight: 600;
+      color: var(--ink);
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .question-list button::before {
+      content: "";
+      position: absolute;
+      left: -100%;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      transition: left 0.5s ease;
+    }
+
+    .question-list button:hover {
+      transform: translateX(4px);
+      border-color: var(--violet);
+      box-shadow: 0 6px 18px rgba(141, 107, 255, 0.25);
+      background: linear-gradient(135deg, rgba(222, 235, 255, 1), rgba(210, 225, 255, 0.95));
+    }
+
+    .question-list button:hover::before {
+      left: 100%;
+    }
+
+    .question-list button:active {
+      transform: translateX(2px);
+      box-shadow: 0 2px 8px rgba(141, 107, 255, 0.15);
     }
 
     .messages-list {
@@ -429,55 +971,169 @@
     }
 
     .message-card {
-      background: var(--panel);
-      padding: 12px;
+      background: linear-gradient(135deg, var(--panel), var(--panel-alt));
+      border: 2px solid rgba(141, 107, 255, 0.2);
+      padding: 14px;
       display: grid;
-      grid-template-columns: 72px 1fr;
-      gap: 10px;
+      grid-template-columns: 80px 1fr;
+      gap: 12px;
       align-items: start;
+      border-radius: 18px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+      animation: messageSlideIn 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes messageSlideIn {
+      from {
+        opacity: 0;
+        transform: translateX(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0);
+      }
     }
 
     .message-card .character-sprite {
       width: 100%;
-      max-width: 72px;
+      max-width: 80px;
     }
 
     .message-name {
-      font-size: 0.96rem;
+      font-size: 0.98rem;
       font-weight: 700;
       margin-bottom: 4px;
+      color: var(--pink);
     }
 
     .message-question {
       display: inline-block;
       margin-bottom: 8px;
-      padding: 5px 7px;
-      background: var(--panel-alt);
+      padding: 6px 10px;
+      background: linear-gradient(135deg, rgba(141, 107, 255, 0.15), rgba(255, 107, 183, 0.1));
       border: 2px solid var(--ink);
-      font-size: 0.72rem;
+      border-radius: 8px;
+      font-size: 0.7rem;
       text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     .message-answer {
-      font-size: 0.88rem;
-      line-height: 1.35;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: rgba(36, 24, 39, 0.9);
     }
 
     .footer-note {
       text-align: center;
-      font-size: 0.75rem;
-      opacity: 0.82;
+      font-size: 0.78rem;
+      opacity: 0.8;
       margin-top: auto;
+      font-weight: 500;
+      animation: fadeIn 1s ease-out 0.5s backwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
     @keyframes bubbleIn {
-      from {
+      0% {
         opacity: 0;
-        transform: translateY(8px);
+        transform: translateY(8px) scale(0.9);
       }
-      to {
+      100% {
         opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    @keyframes discoBeams {
+      0% {
+        transform: translateX(-2%) rotate(-3deg) scaleX(0.98);
+        opacity: 0.75;
+      }
+      50% {
+        transform: translateX(2%) rotate(3deg) scaleX(1.06);
+        opacity: 1;
+      }
+      100% {
+        transform: translateX(-1%) rotate(-2deg) scaleX(0.99);
+        opacity: 0.85;
+      }
+    }
+
+    @keyframes discoLightsPulse {
+      0% {
+        transform: translateY(0) scale(0.95);
+        opacity: 0.75;
+        filter: blur(0px);
+      }
+      50% {
+        transform: translateY(3px) scale(1.08);
+        opacity: 1;
+        filter: blur(3px);
+      }
+      100% {
+        transform: translateY(-1px) scale(0.98);
+        opacity: 0.85;
+        filter: blur(0px);
+      }
+    }
+
+    @keyframes discoSparkles {
+      0% {
+        opacity: 0.4;
         transform: translateY(0);
+      }
+      50% {
+        opacity: 1;
+        transform: translateY(-3px);
+      }
+      100% {
+        opacity: 0.55;
+        transform: translateY(2px);
+      }
+    }
+
+    @keyframes discoFloorGlow {
+      0% {
+        transform: scaleX(0.97) translateY(0);
+        opacity: 0.55;
+      }
+      50% {
+        transform: scaleX(1.03) translateY(-3px);
+        opacity: 0.9;
+      }
+      100% {
+        transform: scaleX(1) translateY(0);
+        opacity: 0.65;
+      }
+    }
+
+    @keyframes discoFloorLines {
+      0% {
+        background-position: 0 0, 0 0;
+      }
+      100% {
+        background-position: 0 0, 40px 0;
+      }
+    }
+
+    .confetti {
+      position: fixed;
+      pointer-events: none;
+      font-size: 2rem;
+      animation: confettiFall 3s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+      z-index: 9999;
+    }
+
+    @keyframes confettiFall {
+      to {
+        transform: translateY(100vh) rotateZ(360deg);
+        opacity: 0;
       }
     }
 
@@ -486,22 +1142,25 @@
         padding-left: 18px;
         padding-right: 18px;
       }
-
     }
 
     @media (max-width: 480px) {
       .group-scene {
-        min-height: 220px;
+        min-height: 240px;
         padding-top: 16px;
       }
 
       .crowd-wrap {
         margin-top: 2px;
-        gap: 4px;
+        gap: 6px;
       }
 
-      .crowd-row {
-        width: 100%;
+      .crowd-row.back-row {
+        margin-bottom: -74px;
+      }
+
+      .crowd-row.mid-row {
+        margin-bottom: -46px;
       }
 
       .crowd-card {
@@ -517,11 +1176,7 @@
 
       .profile-row {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 10px;
-      }
-
-      .profile-card {
-        padding: 8px 6px;
+        gap: 12px;
       }
 
       .profile-card .character-sprite {
@@ -530,19 +1185,25 @@
       }
 
       .profile-name {
-        font-size: 0.72rem;
+        font-size: 0.75rem;
       }
     }
   </style>
 </head>
 <body>
+  <div class="stars-bg" id="starsBg"></div>
+
   <main class="app-shell">
     <section class="screen active" id="screen-group">
       <header class="hero-title">
+        <img class="hero-birthday" src="assets/sprites/Happy birthday-removebg-preview.png" alt="Happy birthday" />
         <h1>Happy Anniversary Tamara</h1>
       </header>
 
       <div class="group-scene pixel-panel">
+        <div class="scene-lights" aria-hidden="true"></div>
+        <div class="scene-sparkles" aria-hidden="true"></div>
+        <div class="scene-floor" aria-hidden="true"></div>
         <div class="crowd-wrap" id="crowdWrap"></div>
       </div>
 
@@ -554,13 +1215,14 @@
 
     <section class="screen" id="screen-interview">
       <div class="interview-header">
-        <button class="pixel-button ghost" type="button" data-action="back-group">Retour groupe</button>
+        <button class="pixel-button ghost" type="button" data-action="back-group">← Retour</button>
       </div>
 
       <div class="speech-bubble" id="dialogBubble">Choisis une question pour afficher la réponse.</div>
 
       <div class="interview-stage">
         <div class="selected-card pixel-panel">
+          <div class="selected-effects" id="selectedEffects" aria-hidden="true"></div>
           <div class="character-sprite" id="selectedSprite"></div>
           <div class="selected-name" id="selectedName">Personnage</div>
         </div>
@@ -576,16 +1238,45 @@
   </main>
 
   <script>
-    // Questions : modifie ici les intitulés et les clés utilisées dans les réponses
+    // Créer des étoiles scintillantes
+    function createStars() {
+      const starsBg = document.getElementById("starsBg");
+      for (let i = 0; i < 30; i++) {
+        const star = document.createElement("div");
+        star.className = "star";
+        star.style.left = Math.random() * 100 + "%";
+        star.style.top = Math.random() * 100 + "%";
+        star.style.animationDelay = Math.random() * 3 + "s";
+        starsBg.appendChild(star);
+      }
+    }
+
+    // Créer des confettis à la demande
+    function createConfetti() {
+      const confetti = ["🎉", "✨", "🎊", "💖", "🌟", "🎈", "💝"];
+      for (let i = 0; i < 20; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti";
+        piece.textContent = confetti[Math.floor(Math.random() * confetti.length)];
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.top = "-20px";
+        piece.style.animationDuration = (2 + Math.random() * 1) + "s";
+        piece.style.opacity = Math.random() * 0.7 + 0.3;
+        document.body.appendChild(piece);
+        setTimeout(() => piece.remove(), 3500);
+      }
+    }
+
+    // Questions
     const questions = [
-      { key: "favorite", label: "Ce que tu préfères chez Tamara ?" },
-      { key: "memory", label: "Ton meilleur souvenir avec elle ?" },
-      { key: "words", label: "Tamara en 3 mots ?" },
-      { key: "goodbye", label: "Un message pour son départ ?" },
-      { key: "emoji", label: "Un emoji qui la représente ?" }
+      { key: "words", label: "Comment décrirais-tu Tamara en 3 mots ?" },
+      { key: "emoji", label: "Choisis l'émoji qui te fait le plus penser à Tamara." },
+      { key: "memory", label: "Quelle est ta première impression d'elle ?" },
+      { key: "favorite", label: "Quelle qualité elle devrait garder toute sa vie ?" },
+      { key: "song", label: "Quelle chanson lui correspond le mieux ? 🎧" }
     ];
-    // Personnages : remplace avatarPlaceholder / shape plus tard par tes vrais sprites pixel art
-    // Réponses : modifie ici facilement chaque réponse par personnage
+
+    // Personnages et réponses
     const people = [
       {
         id: "antooo",
@@ -594,184 +1285,12 @@
         avatarPlaceholder: "circle",
         sprite: "assets/sprites/antonia.png",
         answers: {
-          favorite: "Sa bonne humeur même quand elle fait semblant d’etre calme.",
-          memory: "Le moment ou elle nous a tous fait rire sans meme essayer.",
-          words: "Solaire, drole, iconique.",
-          goodbye: "N’oublie pas qu’ici tu as laisse beaucoup de souvenirs.",
-          emoji: "🌴 parce qu’elle ramene toujours une vibe soleil."
-        }
-      },
-      {
-        id: "claudia",
-        name: "Claudia",
-        color: "#9a7cff",
-        avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/claudia.png",
-        answers: {
-          favorite: "Sa facon d’ecouter vraiment les gens.",
-          memory: "Notre fou rire improvise pendant une pause trop courte.",
-          words: "Douce, brillante, memorable.",
-          goodbye: "J’espere que ta suite sera aussi lumineuse que toi.",
-          emoji: "✨ parce qu’elle laisse une trace partout."
-        }
-      },
-      {
-        id: "esperado",
-        name: "Esperado",
-        color: "#7fc6ff",
-        avatarPlaceholder: "hex",
-        sprite: "assets/sprites/esperado.png",
-        answers: {
-          favorite: "Son energie calme qui rassure tout le monde.",
-          memory: "Le jour ou on a improvise un plan parfait en cinq minutes.",
-          words: "Fine, loyale, drole.",
-          goodbye: "Tu pars peut-etre, mais ton style reste avec nous.",
-          emoji: "🫶 parce qu’elle a le coeur immense."
-        }
-      },
-      {
-        id: "estheda",
-        name: "Estheda",
-        color: "#ffa4d7",
-        avatarPlaceholder: "circle",
-        sprite: "assets/sprites/estheda.png",
-        answers: {
-          favorite: "Son sens du detail et ses reactions legendairement sinceres.",
-          memory: "Le trajet ou on a parle de tout jusqu’a oublier l’heure.",
-          words: "Unique, vive, attachante.",
-          goodbye: "Promis, on garde ta place dans toutes les discussions.",
-          emoji: "🎀 parce qu’elle rend tout plus cute."
-        }
-      },
-      {
-        id: "sarah",
-        name: "Sarah",
-        color: "#b68dff",
-        avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/kawai.png",
-        answers: {
-          favorite: "Sa facon de mettre tout le monde a l’aise.",
-          memory: "Le jour ou on a fini par rire au lieu de stresser.",
-          words: "Classe, drole, sincere.",
-          goodbye: "Que cette nouvelle etape te ressemble vraiment.",
-          emoji: "💫 parce qu’elle fait toujours son effet."
-        }
-      },
-      {
-        id: "lorenzo",
-        name: "Lorenzo",
-        color: "#89d1ff",
-        avatarPlaceholder: "hex",
-        sprite: "assets/sprites/lorenzo.png",
-        answers: {
-          favorite: "Son regard hyper juste sur les choses.",
-          memory: "Le debrief improvise devenu discussion de deux heures.",
-          words: "Lucide, fun, rare.",
-          goodbye: "Va tout casser la-bas, on suit de loin mais fort.",
-          emoji: "🦋 parce qu’elle evolue sans perdre sa douceur."
-        }
-      },
-      {
-        id: "manon",
-        name: "Manon",
-        color: "#ff95bc",
-        avatarPlaceholder: "circle",
-        sprite: "assets/sprites/manon.png",
-        answers: {
-          favorite: "Son humour discret qui arrive toujours au bon moment.",
-          memory: "Le jour ou elle a sauve l’ambiance sans prevenir.",
-          words: "Petillante, maligne, chic.",
-          goodbye: "On veut des nouvelles et beaucoup de photos de ta suite.",
-          emoji: "🌸 parce qu’elle apporte de la douceur partout."
-        }
-      },
-      {
-        id: "marilou",
-        name: "Marilou",
-        color: "#8d74ff",
-        avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/marie-lou.png",
-        answers: {
-          favorite: "Sa patience et son sens du timing parfait.",
-          memory: "La fois ou son commentaire a lance un fou rire general.",
-          words: "Patiente, lumineuse, cool.",
-          goodbye: "Ton chapitre d’apres a interet a etre grandiose.",
-          emoji: "🎧 parce qu’elle a sa propre vibe."
-        }
-      },
-      {
-        id: "naima",
-        name: "Naima",
-        color: "#8bc8ff",
-        avatarPlaceholder: "hex",
-        sprite: "assets/sprites/naima.png",
-        answers: {
-          favorite: "Sa sincerite sans jamais perdre sa tendresse.",
-          memory: "Notre mini celebration improvisee pour rien du tout.",
-          words: "Fraiche, vraie, solaire.",
-          goodbye: "Merci d’avoir rendu cette periode plus belle.",
-          emoji: "🌈 parce qu’elle change l’humeur d’une piece."
-        }
-      },
-      {
-        id: "nek",
-        name: "Indiraaaaa Nek",
-        color: "#ff88d0",
-        avatarPlaceholder: "circle",
-        sprite: "assets/sprites/nek.png",
-        answers: {
-          favorite: "Sa facon de transformer le banal en moment marquant.",
-          memory: "Le running gag qui n’a jamais cesse d’etre drole.",
-          words: "Vive, cool, inoubliable.",
-          goodbye: "Tu laisses ici un vide tres difficile a styliser.",
-          emoji: "💿 parce qu’elle a un vrai energie Y2K."
-        }
-      },
-      {
-        id: "aya",
-        name: "Aya",
-        color: "#ad87ff",
-        avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/serena.png",
-        answers: {
-          favorite: "Son mix parfait entre douceur et caractere.",
-          memory: "Le jour ou elle a su quoi dire exactement.",
-          words: "Drôle, fine, solaire.",
-          goodbye: "Ton prochain groupe a beaucoup de chance.",
-          emoji: "🌟 parce qu’elle brille sans forcer."
-        }
-      },
-      {
-        id: "shishi",
-        name: "Shishi",
-        color: "#75c2ff",
-        avatarPlaceholder: "hex",
-        sprite: "assets/sprites/shyb.png",
-        answers: {
-          favorite: "Sa presence qui rend tout tout de suite plus simple.",
-          memory: "La conversation de fin de journee qu’on n’a jamais oubliee.",
-          words: "Douce, forte, stylée.",
-          goodbye: "Reviens nous raconter toutes tes nouvelles aventures.",
-          emoji: "🪩 parce qu’elle met de la lumiere partout."
-        }
-      }
-    ];
-
-    people.splice(
-      0,
-      people.length,
-      {
-        id: "antooo",
-        name: "Antooo",
-        color: "#ff8ac8",
-        avatarPlaceholder: "circle",
-        sprite: "assets/sprites/antonia.png",
-        answers: {
           favorite: "Sa gentillesse.",
+          song: "N'importe quelle d'anime",
           memory: "Outfit trop frais.",
           words: "Magnifique, drole, mignonne.",
           goodbye: "Coucou Tamara, merci pour cette annee de master. On continuera les gossips quand j'irai connaitre la Guadeloupe.",
-          emoji: "Fleur tropicale."
+          emoji: "🌺"
         }
       },
       {
@@ -782,10 +1301,11 @@
         sprite: "assets/sprites/claudia.png",
         answers: {
           favorite: "Son humour.",
+          song: "L'ost de one piece",
           memory: "Sympa cette nana.",
           words: "Gentille, souriante, chaleureuse.",
           goodbye: "Hey! Je sais qu'on se connait pas assez, mais je t'apprecie beaucoup. Alors joyeux anniversaire a toi grosse tete, je te souhaite d'etre toujours heureuse, de trouver la paix du coeur et beaucoup d'argent.",
-          emoji: "Rire."
+          emoji: "😂"
         }
       },
       {
@@ -796,24 +1316,26 @@
         sprite: "assets/sprites/esperado.png",
         answers: {
           favorite: "Joyeuse.",
+          song: "Sincerity Sailor",
           memory: "Calme.",
           words: "Joyeuse, drole, energique.",
           goodbye: "Ca fait pas longtemps qu'on se connait mais franchement t'es l'une des rencontres les plus sympa que j'ai eu cette annee. Tu es toujours joyeuse, on s'ennuie jamais avec toi et tu sais etre a l'ecoute quand il le faut, donc pour tout ca je te dis un grand merci et surtout JOYEUX ANNIVERSAIRE.",
-          emoji: "Calin."
+          emoji: "🤗"
         }
       },
       {
         id: "estheda",
-        name: "Estheda",
+        name: "Esthéda",
         color: "#ffa4d7",
         avatarPlaceholder: "circle",
         sprite: "assets/sprites/estheda.png",
         answers: {
           favorite: "Ses principes et ses valeurs.",
+          song: "Les musique rnb toutes ✨🍒",
           memory: "On s'est rencontrees en boite et depuis on ne se lache plus.",
           words: "Belle, doree, solaire.",
           goodbye: "Tamara je suis extremement chanceuse, honoree et heureuse de t'avoir dans ma vie. Tu es gentille, bienveillante et toi-meme, et ta maman peut etre fiere de la belle femme forte, courageuse et intelligente que tu es devenue. Tu vas me manquer mais je serai toujours la meme a distance.",
-          emoji: "Soleil."
+          emoji: "🌞"
         }
       },
       {
@@ -824,10 +1346,11 @@
         sprite: "assets/sprites/lorenzo.png",
         answers: {
           favorite: "Le fait de bouger ses fesses des qu'elle entend un BPM proche du shatta.",
+          song: "Brrrrrdadumdum de Joe Moses",
           memory: "Poooouuuuu gay on belle ti chabine.",
           words: "Solaire, Y2K, photogenique.",
           goodbye: "Hey Tam, j'espere que tu vas aimer ce petit cadeau. Budget serre, mais j'ai mis ce que je pouvais dedans et surtout un peu de moi. Joyeux anniversaire a toi, profite a fond de ta journee, mange bien, rigole bien. T'es une personne en or.",
-          emoji: "Soleil."
+          emoji: "🌞"
         }
       },
       {
@@ -838,10 +1361,11 @@
         sprite: "assets/sprites/manon.png",
         answers: {
           favorite: "Sa bougeotte.",
+          song: "Gwada G - Up to",
           memory: "Au debut elle avait l'air calme, puis le demon a montre sa vraie couleur.",
           words: "Solaire, attachante, fun.",
           goodbye: "Joyeux anniversaire Tamaaaaara, la fille qui peut pas s'empecher de bouger ses fesses a n'importe quelle melodie. Je te souhaite plein de bonnes choses avec cet age tres mature, et j'espere que ton retour en Guadeloupe se passera bien et que je te reverrai quand meme.",
-          emoji: "Danse."
+          emoji: "💃"
         }
       },
       {
@@ -852,24 +1376,26 @@
         sprite: "assets/sprites/marie-lou.png",
         answers: {
           favorite: "Son ouverture d'esprit.",
+          song: "B.D.Y.M.M de Ridge, Dirty Dawg Pudaz",
           memory: "Tres sympathique dis donc.",
           words: "Bonne aura, ouverte d'esprit, energique.",
           goodbye: "Coucou Tam, joyeux anniversaire. Profite, profite, et je regrette mon absence, donc t'as interet a bien profiter parce que 25 ans c'est le meilleur age et tu verras.",
-          emoji: "Bisou."
+          emoji: "😗"
         }
       },
       {
         id: "naima",
-        name: "Naima",
+        name: "Naïma",
         color: "#8bc8ff",
         avatarPlaceholder: "hex",
         sprite: "assets/sprites/naima.png",
         answers: {
           favorite: "Son authenticite.",
+          song: "SHE DID IT AGAIN - Tyla ft Zara Larsson",
           memory: "Une vraie baddie.",
           words: "Beautiful, solaire, forte.",
           goodbye: "Happy birthdayyy Tam. On ne se connait que depuis quelques mois mais c'est un plaisir pour moi de te connaitre. Aussi belle a l'interieur qu'a l'exterieur, et je te souhaite tout le meilleur pour la suite de tes projets.",
-          emoji: "Nails."
+          emoji: "💅🏽"
         }
       },
       {
@@ -880,10 +1406,11 @@
         sprite: "assets/sprites/nek.png",
         answers: {
           favorite: "Garde ton humour.",
+          song: "Becky G: shower! Mais Gwada G: Up to!🔥😭never forget TTB 2026 le côté fun sa bouge pas",
           memory: "Pas si calme que ca derriere son joli visage et ses lunettes.",
           words: "Solaire, sexy, mignonne.",
           goodbye: "Joyeux anniversaire young lady. J'espere que tu auras la twerkinite toute ta vie, pas de probleme de dos, et que tu garderas toujours ce sourire magnifique et ce mood enjoue peu importe les epreuves de la vie.",
-          emoji: "Arc-en-ciel."
+          emoji: "🌈"
         }
       },
       {
@@ -894,24 +1421,26 @@
         sprite: "assets/sprites/shyb.png",
         answers: {
           favorite: "Elle est solaire.",
+          song: "DJ DESPY La da dee SXM 2023",
           memory: "Joie de vivre.",
           words: "Ouverte d'esprit, drole, solaire.",
           goodbye: "T'as une force incroyable, meme quand la vie est pas douce tu continues d'avancer avec ce sourire et cette energie qui font du bien. Je te souhaite un bon retour au peyi, et j'ai le feeling qu'on se recroisera tres bientot.",
-          emoji: "Sourire gene."
+          emoji: "🤭"
         }
       },
       {
         id: "cecile",
-        name: "Cecile",
+        name: "Cécile",
         color: "#ffc27a",
         avatarPlaceholder: "diamond",
         sprite: "assets/sprites/kawai.png",
         answers: {
           favorite: "Sa joie de vivre contagieuse.",
+          song: "\"Barbie Girl\" by Aqua",
           memory: "Jolie.",
           words: "Solaire, stylee, girly spice.",
           goodbye: "On ne se connait que depuis un an. Cependant, I looked forward to seeing you every time. You're lovely and so fun to be around. Joyeux anniversaire.",
-          emoji: "Fantome."
+          emoji: "👻"
         }
       },
       {
@@ -922,10 +1451,11 @@
         sprite: "assets/sprites/serena.png",
         answers: {
           favorite: "Qu'elle ne se laisse pas faire.",
+          song: "Young chang rentré ô Berkail",
           memory: "Elle est super gentille et sensible.",
           words: "TDAH, drole, du caractere.",
           goodbye: "J'ai tout dit dans mes fleurs mais merci a toi d'avoir compose ma vie. C'est la qu'on se rend compte de la valeur d'une amitie quand elle est inconditionnelle. J'espere pour toi aussi que tu trouveras une paix interieure.",
-          emoji: "Girafe."
+          emoji: "🦒"
         }
       },
       {
@@ -936,10 +1466,11 @@
         sprite: "assets/sprites/shabine1.png",
         answers: {
           favorite: "Son optimisme.",
+          song: "West indies - PSE",
           memory: "Rah ouaiiiiiiiis chabine ou ka ban mwen-y.",
           words: "Solaire, belle, hyper drole.",
           goodbye: "Tamaraaaaaaaaaaaaaaaaa. A peine trois ans qu'on se connait et j'ai l'impression que ca fait tellement plus longtemps. On a tellement rigole, pleure, fait la fete et joue a minecraft ensemble. Gwo bo siwo ma copine-cousine, on se voit le mois prochain.",
-          emoji: "Lunettes."
+          emoji: "🤓"
         }
       },
       {
@@ -950,10 +1481,11 @@
         sprite: "assets/sprites/yves.png",
         answers: {
           favorite: "Son rire funny ass nigga.",
+          song: "Brahman - Glide",
           memory: "On bel ti fanm i ka viv lavi, et qui mange pimente.",
           words: "Funny Biatch Nigga.",
           goodbye: "Malgre ses lots de problemes, tu trouves le moyen de vivre et d'apprecier la vie intensement. Continue a vivre, progresser, aimer et vivre la vie que tu as. J'aime qui tu es, j'aime qui tu deviendras, et je te dis joyeux anniversaire mafia.",
-          emoji: "Soleil."
+          emoji: "🌞"
         }
       },
       {
@@ -964,13 +1496,126 @@
         sprite: "assets/sprites/inconnu-beau-gosse-dubai.png",
         answers: {
           favorite: "Sa joie de vivre.",
+          song: "La Guadeloupéenne",
           memory: "Good vibe.",
           words: "Rayonnante, aimante, folle.",
           goodbye: "Tamara, tu es un petit rayon de soleil qui apporte toujours la bonne humeur. Je suis fier de te considerer comme une amie dans mon cercle. Peu importe ou tu seras, je serai la pour toi. Je te souhaite un tres bel anniversaire.",
-          emoji: "Nails."
+          emoji: "💅🏼"
+        }
+      },
+      {
+        id: "gabby",
+        name: "Gabby",
+        color: "#ffb4cf",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Gaby-removebg-preview 2.png",
+        buttonSprite: "assets/sprites/Gaby-removebg-preview 2-face.png",
+        answers: {
+          favorite: "Sa gentillesse.",
+          song: "Desann",
+          memory: "Joyeuse.",
+          words: "Maire de Toulouse.",
+          goodbye: "Tu vas trop nous manquer Tchip pk tu pars bisous copine on t'aime je veux voir tes fesses bouger jusqu'à ton départ 😭❤️",
+          emoji: "👙"
+        }
+      },
+      {
+        id: "aleksei",
+        name: "Aleksei Laguerre",
+        color: "#c9a6ff",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/Aleksei-removebg-preview 3.png",
+        buttonSprite: "assets/sprites/Aleksei-removebg-preview 3-face.png",
+        answers: {
+          favorite: "Sa gentillesse.",
+          song: "Kalash",
+          memory: "C'est une vraie amie.",
+          words: "Gentil, bienveillante, attentionné.",
+          goodbye: "Tamara, ma très cher pote du collège qui restera à jamais une vraie amie.",
+          emoji: "🤩"
+        }
+      },
+      {
+        id: "noe",
+        name: "Noé",
+        color: "#9ad8ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/noe-removebg-preview.png",
+        buttonSprite: "assets/sprites/noe-removebg-preview-face.png",
+        answers: {
+          favorite: "Son enthousiasme.",
+          song: "Estrelar - Marcos Valle (omg merci de m'avoir montré ce son !!)",
+          memory: "Troop sympa !",
+          words: "Rayonnante, happy, drôle.",
+          goodbye: "Tam merci pour ta joie de vivre, ton bissap et le serveur MC (Jvais finir la ferme🙏🙏) mais surtout surtout happy birthdaay!!🎉💖",
+          emoji: "💃"
+        }
+      },
+      {
+        id: "fabien",
+        name: "Fabien",
+        color: "#ffd3a1",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Fabien-removebg-preview 4.png",
+        buttonSprite: "assets/sprites/Fabien-removebg-preview 4-face.png",
+        answers: {
+          favorite: "Son courage.",
+          song: "À cœur ouvert warped",
+          memory: "Quand je l'ai rencontrée j'ai tout de suite voulu découvrir son petit monde car elle avait l'air mystérieuse je voulais en apprendre plus.",
+          words: "Folle joie de vivre rêveuse.",
+          goodbye: "Chou profite un maximum de tes 25 ans ❤️ je suis reconnaissant de la chance de les passer à tes côtés ❤️ mais ce n'est juste qu'une question de temps, et sache que ton chéri t'attend avec impatience.❤️ je t'aime. Wakonet danm danm bisous sur la fesse gauche. Ps: je ne pouvais pas finir sur une note trop mimi mdr😂❤️❤️",
+          emoji: "☺️"
+        }
+      },
+      {
+        id: "chrystel",
+        name: "Chrystel",
+        color: "#ffcc8e",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/Chrystel-removebg-preview 5.png",
+        buttonSprite: "assets/sprites/Chrystel-removebg-preview 5-face.png",
+        answers: {
+          favorite: "Son courage.",
+          song: "DND - Rema",
+          memory: "C'est ma sœur ma première impression c'est qu'on allait être collé à VIE.",
+          words: "Soleil, amour, confiance.",
+          goodbye: "Tu es la personne qui m'apporte le plus de tout dans ma vie, tu as toujours était là pour moi, tu es ma meilleure amie, ma sœur, ma cousine, ma confidente, mon acolyte, mon Clyde, mon inspiration, mon tout. Je t'aime avec tout l'amour du monde, tu n'imagines même pas 🥹",
+          emoji: "🌞"
+        }
+      },
+      {
+        id: "oceane",
+        name: "Océane",
+        color: "#ffd59f",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/oceane-face.png",
+        buttonSprite: "assets/sprites/oceane-face-alt.png",
+        answers: {
+          favorite: "Sa capacité immense pour le fun à outrance !",
+          song: "EXO-K - History",
+          memory: "Une fille adorable avec qui j'ai immédiatement matché parce qu'on a beaucoup en commun !",
+          words: "Ensoleillée, radieuse, tournesol.",
+          goodbye: "Tam ma femme, ma star, la plus belle des plus belles, j'ai adoré tout le temps que j'ai pu faire à Toulouse avec toi. Tu es l'une des premières personnes avec qui j'ai pu découvrir Toulouse, et beaucoup des expériences que j'ai pu faire là-bas n'auraient pas été possibles sans toi. Y'a pas eu un seul moment passé avec toi qui n'était pas mémorable et exceptionnel. Je t'aime très fort, joyeux anniversaire ❤️",
+          emoji: "🌻"
+        }
+      },
+      {
+        id: "samy",
+        name: "Samy",
+        color: "#ffc6a8",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/samy-face.png",
+        buttonSprite: "assets/sprites/samy-face-alt.png",
+        answers: {
+          favorite: "Sa bienveillance pour les siens.",
+          song: "Se miimii",
+          memory: "Ma cousine est bavarde et drôle.",
+          words: "Énergique, fêtarde, souriante.",
+          goodbye: "Continue à partager tes bonnes vybes!!",
+          emoji: "😁"
         }
       }
-    );
+    ];
 
     const screens = {
       group: document.getElementById("screen-group"),
@@ -979,10 +1624,12 @@
 
     const profileRow = document.getElementById("profileRow");
     const crowdWrap = document.getElementById("crowdWrap");
-        const questionList = document.getElementById("questionList");
+    const questionList = document.getElementById("questionList");
     const dialogBubble = document.getElementById("dialogBubble");
     const selectedSprite = document.getElementById("selectedSprite");
     const selectedName = document.getElementById("selectedName");
+    const selectedCard = document.querySelector(".selected-card");
+    const selectedEffects = document.getElementById("selectedEffects");
 
     let selectedPersonId = people[0].id;
 
@@ -1022,21 +1669,68 @@
       return sprite;
     }
 
+    function createEffectLayer(effectType) {
+      const spriteMap = {
+        fabien: "assets/sprites/rose-effect.png",
+        manon: "assets/sprites/soleil-effect.png",
+        lorenzo: "assets/sprites/jeu-effect.png"
+      };
+      const extraMap = {
+        fabien: "assets/sprites/coeur-effect.png",
+        manon: "assets/sprites/soleil-effect.png",
+        lorenzo: "assets/sprites/jeu-effect.png"
+      };
+      const layer = document.createElement("div");
+      layer.className = "effect-layer";
+      for (let i = 1; i <= 8; i += 1) {
+        const item = document.createElement("img");
+        item.className = `effect-item v${i}`;
+        item.alt = "";
+        item.setAttribute("aria-hidden", "true");
+        item.loading = "lazy";
+        item.src = effectType === "fabien" && i % 2 === 0 ? extraMap[effectType] : spriteMap[effectType];
+        layer.appendChild(item);
+      }
+      return layer;
+    }
+
+    function applySelectedEffects(person) {
+      selectedCard.classList.remove("effect-fabien", "effect-manon", "effect-lorenzo");
+      selectedEffects.innerHTML = "";
+
+      if (person.id === "fabien") {
+        selectedCard.classList.add("effect-fabien");
+        selectedEffects.appendChild(createEffectLayer("fabien"));
+      }
+      if (person.id === "manon") {
+        selectedCard.classList.add("effect-manon");
+        selectedEffects.appendChild(createEffectLayer("manon"));
+      }
+      if (person.id === "lorenzo") {
+        selectedCard.classList.add("effect-lorenzo");
+        selectedEffects.appendChild(createEffectLayer("lorenzo"));
+      }
+    }
+
     function renderCrowd() {
       crowdWrap.innerHTML = "";
-      const firstRowCount = Math.ceil(people.length / 2);
+      const rowSize = Math.ceil(people.length / 3);
       const rows = [
-        people.slice(0, firstRowCount),
-        people.slice(firstRowCount)
+        { people: people.slice(rowSize * 2), className: "back-row" },
+        { people: people.slice(rowSize, rowSize * 2), className: "mid-row" },
+        { people: people.slice(0, rowSize), className: "front-row" }
       ];
 
-      rows.forEach((rowPeople) => {
+      rows.forEach((rowData) => {
         const row = document.createElement("div");
-        row.className = "crowd-row";
+        row.className = `crowd-row ${rowData.className}`;
 
-        rowPeople.forEach((person) => {
+        rowData.people.forEach((person) => {
           const card = document.createElement("div");
           card.className = "crowd-card";
+          if (["gabby", "aleksei", "noe", "fabien", "chrystel"].includes(person.id)) {
+            card.classList.add("is-new-late");
+          }
           card.appendChild(createSprite(person));
           row.appendChild(card);
         });
@@ -1089,6 +1783,7 @@
       } else {
         selectedSprite.style.setProperty("--char-color", person.color);
       }
+      applySelectedEffects(person);
       selectedName.textContent = person.name;
       dialogBubble.textContent = person.answers.goodbye;
       dialogBubble.classList.remove("visible");
@@ -1098,14 +1793,23 @@
 
     function showScreen(name) {
       Object.entries(screens).forEach(([key, screen]) => {
-        screen.classList.toggle("active", key === name);
+        if (key !== name) {
+          screen.classList.add("exiting");
+          setTimeout(() => {
+            screen.classList.remove("active", "exiting");
+          }, 400);
+        }
       });
+      setTimeout(() => {
+        screens[name].classList.add("active");
+      }, name === "interview" ? 0 : 0);
     }
 
     function openInterview(personId) {
       selectedPersonId = personId;
       renderSelectedPerson();
       showScreen("interview");
+      createConfetti();
     }
 
     profileRow.addEventListener("click", (event) => {
@@ -1123,6 +1827,7 @@
       dialogBubble.classList.remove("visible");
       void dialogBubble.offsetWidth;
       dialogBubble.classList.add("visible");
+      createConfetti();
     });
 
     document.addEventListener("click", (event) => {
@@ -1133,6 +1838,8 @@
         showScreen("group");
       }
     });
+
+    createStars();
     renderCrowd();
     renderProfiles();
     renderQuestions();
@@ -1140,6 +1847,3 @@
   </script>
 </body>
 </html>
-
-
-
