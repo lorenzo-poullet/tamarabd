@@ -192,13 +192,14 @@
       gap: 0;
       align-items: end;
       justify-items: center;
+      isolation: isolate;
     }
 
     .crowd-card {
       position: relative;
       padding: 0;
-      margin-inline: -22px;
-      width: calc(100% + 44px);
+      margin-inline: -34px;
+      width: calc(100% + 68px);
       text-align: center;
       border: 0;
       box-shadow: none;
@@ -207,25 +208,25 @@
     }
 
     .crowd-card.back-row {
-      transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(0.94);
+      transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(0.95);
       transform-origin: bottom center;
       z-index: 1;
     }
 
     .crowd-card.front-row {
-      margin-top: -52px;
+      margin-top: -74px;
       transform: translate3d(var(--crowd-shift, 0px), 0, 0);
-      z-index: 2;
+      z-index: 3;
     }
 
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.62 / 1;
-      min-height: 128px;
+      min-height: 136px;
     }
 
     .crowd-card.back-row .character-sprite {
-      min-height: 116px;
+      min-height: 122px;
     }
 
     .character-sprite {
@@ -545,15 +546,15 @@
       }
 
       .crowd-card.front-row {
-        margin-top: -58px;
+        margin-top: -86px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 164px;
+        min-height: 172px;
       }
 
       .crowd-card.back-row .character-sprite {
-        min-height: 144px;
+        min-height: 150px;
       }
 
       .profile-row {
@@ -873,11 +874,11 @@
         const card = document.createElement("div");
         const isBackRow = index < splitIndex;
         card.className = `crowd-card ${isBackRow ? "back-row" : "front-row"}`;
-        const shiftPattern = [-28, -18, -8, 2, -20, -10, -24, -14, -4, 6, -16, -6];
+        const shiftPattern = [-44, -28, -14, 6, -34, -18, -38, -22, -8, 12, -26, -12];
         const idleRisePattern = [2, 4, 3, 5, 2, 3, 5, 3, 4, 2, 4, 3];
         const idleDropPattern = [1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1];
         card.style.setProperty("--crowd-shift", `${shiftPattern[index % shiftPattern.length]}px`);
-        card.style.setProperty("--crowd-scale", isBackRow ? "0.94" : "1");
+        card.style.setProperty("--crowd-scale", isBackRow ? "0.95" : "1");
         card.style.setProperty("--idle-rise", `${idleRisePattern[index % idleRisePattern.length]}px`);
         card.style.setProperty("--idle-drop", `${idleDropPattern[index % idleDropPattern.length]}px`);
         card.style.setProperty("--idle-duration", `${3.2 + (index % 6) * 0.34}s`);
