@@ -157,11 +157,12 @@
       border: 3px solid rgba(255, 107, 183, 0.3);
       box-shadow: 0 8px 32px rgba(255, 107, 183, 0.15), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       border-radius: 28px;
-      padding: 20px 18px;
+      padding: 16px 14px;
       text-align: center;
-      display: grid;
+      display: flex;
+      flex-direction: column;
       place-items: center;
-      gap: 12px;
+      gap: 8px;
       animation: heroGlow 3s ease-in-out infinite;
     }
 
@@ -175,12 +176,16 @@
     }
 
     .hero-title h1 {
-      font-size: 0;
-      line-height: 0;
+      font-size: 1.8rem;
+      line-height: 1.2;
+      font-weight: 700;
+      color: var(--pink);
+      text-shadow: 2px 2px 4px rgba(141, 107, 255, 0.2);
+      letter-spacing: 1px;
     }
 
     .hero-birthday {
-      width: min(100%, 320px);
+      width: min(100%, 280px);
       display: block;
       object-fit: contain;
       filter: drop-shadow(0 8px 16px rgba(141, 107, 255, 0.2)) brightness(1.05);
@@ -200,8 +205,8 @@
       background:
         radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.5), transparent 18%),
         linear-gradient(180deg, rgba(34, 15, 52, 0.1), rgba(255, 255, 255, 0));
-      min-height: 280px;
-      padding: 18px 10px 14px;
+      min-height: 260px;
+      padding: 16px 10px 12px;
       border: 2px solid rgba(255, 107, 183, 0.2);
       animation: scenePulse 4s ease-in-out infinite;
     }
@@ -343,60 +348,6 @@
       transition: transform 0.3s ease;
     }
 
-    .crowd-card.effect-fabien,
-    .crowd-card.effect-manon,
-    .crowd-card.effect-lorenzo {
-      overflow: visible;
-    }
-
-    .effect-layer {
-      position: absolute;
-      inset: -16px -18px -10px;
-      pointer-events: none;
-      z-index: 5;
-      overflow: visible;
-    }
-
-    .effect-item {
-      position: absolute;
-      width: 24px;
-      height: 24px;
-      object-fit: contain;
-      opacity: 0;
-      transform-origin: center;
-      filter: drop-shadow(0 3px 8px rgba(255, 255, 255, 0.35));
-    }
-
-    .effect-item.v1 { left: 2%; top: -8%; animation-delay: -0.2s; }
-    .effect-item.v2 { left: 15%; top: 4%; animation-delay: -0.8s; }
-    .effect-item.v3 { left: 28%; top: -14%; animation-delay: -1.4s; }
-    .effect-item.v4 { left: 42%; top: 8%; animation-delay: -2.1s; }
-    .effect-item.v5 { left: 56%; top: -10%; animation-delay: -1.1s; }
-    .effect-item.v6 { left: 70%; top: 2%; animation-delay: -2.7s; }
-    .effect-item.v7 { left: 84%; top: -12%; animation-delay: -1.8s; }
-    .effect-item.v8 { left: 92%; top: 10%; animation-delay: -2.4s; }
-
-    .effect-fabien .effect-item {
-      animation: fabienRain 3.1s linear infinite;
-    }
-
-    .effect-fabien .effect-item.v2,
-    .effect-fabien .effect-item.v5,
-    .effect-fabien .effect-item.v8 {
-      width: 18px;
-      height: 18px;
-    }
-
-    .effect-manon .effect-item {
-      opacity: 0.95;
-      animation: manonOrbit 3.8s ease-in-out infinite;
-    }
-
-    .effect-lorenzo .effect-item {
-      opacity: 0.95;
-      animation: lorenzoBounce 2.7s ease-in-out infinite;
-    }
-
     .crowd-card:nth-child(1) { animation-delay: 0.1s; }
     .crowd-card:nth-child(2) { animation-delay: 0.15s; }
     .crowd-card:nth-child(3) { animation-delay: 0.2s; }
@@ -414,53 +365,6 @@
       to {
         opacity: 1;
         transform: scale(1) rotateY(0deg);
-      }
-    }
-
-    @keyframes fabienRain {
-      0% {
-        opacity: 0;
-        transform: translateY(-22px) scale(0.7) rotate(-10deg);
-      }
-      18% {
-        opacity: 1;
-      }
-      70% {
-        opacity: 0.95;
-      }
-      100% {
-        opacity: 0;
-        transform: translateY(156px) scale(1.05) rotate(14deg);
-      }
-    }
-
-    @keyframes manonOrbit {
-      0%, 100% {
-        transform: translateY(0) rotate(-8deg) scale(0.9);
-      }
-      25% {
-        transform: translateY(-14px) rotate(8deg) scale(1.06);
-      }
-      50% {
-        transform: translateY(4px) rotate(-3deg) scale(0.96);
-      }
-      75% {
-        transform: translateY(-10px) rotate(10deg) scale(1.04);
-      }
-    }
-
-    @keyframes lorenzoBounce {
-      0%, 100% {
-        transform: translateY(0) scale(0.92) rotate(-3deg);
-      }
-      20% {
-        transform: translateY(-8px) scale(1.04) rotate(6deg);
-      }
-      50% {
-        transform: translateY(2px) scale(0.98) rotate(-5deg);
-      }
-      80% {
-        transform: translateY(-12px) scale(1.08) rotate(4deg);
       }
     }
 
@@ -835,8 +739,6 @@
       border-radius: 28px;
       box-shadow: 0 12px 36px rgba(255, 107, 183, 0.25), inset 0 1px 0 rgba(255, 255, 255, 0.6);
       animation: cardScaleIn 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
-      position: relative;
-      overflow: visible;
     }
 
     @keyframes cardScaleIn {
@@ -854,8 +756,6 @@
       width: min(58vw, 200px);
       transition: transform 0.3s ease;
       animation: spriteFloat 3s ease-in-out infinite;
-      position: relative;
-      z-index: 2;
     }
 
     @keyframes spriteFloat {
@@ -873,24 +773,6 @@
       -webkit-text-fill-color: transparent;
       background-clip: text;
       animation: slideUp 0.5s ease-out 0.2s backwards;
-      position: relative;
-      z-index: 2;
-    }
-
-    .selected-effects {
-      position: absolute;
-      inset: -20px -28px -10px;
-      pointer-events: none;
-      z-index: 1;
-      overflow: visible;
-    }
-
-    .selected-card.effect-fabien .effect-item,
-    .selected-card.effect-manon .effect-item,
-    .selected-card.effect-lorenzo .effect-item {
-      width: 30px;
-      height: 30px;
-      opacity: 0.95;
     }
 
     @keyframes slideUp {
@@ -1144,48 +1026,154 @@
       }
     }
 
+    @media (min-width: 640px) {
+      .app-shell {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+    }
+
     @media (max-width: 480px) {
+      .app-shell {
+        padding: calc(12px + env(safe-area-inset-top)) 9px calc(14px + env(safe-area-inset-bottom));
+      }
+
+      .screen {
+        gap: 11px;
+      }
+
+      .hero-title {
+        padding: 12px 10px;
+        gap: 6px;
+        border-radius: 22px;
+      }
+
+      .hero-title h1 {
+        font-size: 1.4rem;
+      }
+
+      .hero-birthday {
+        width: min(100%, 230px);
+      }
+
       .group-scene {
-        min-height: 240px;
-        padding-top: 16px;
+        min-height: 220px;
+        padding: 13px 8px 9px;
+        border-radius: 20px;
       }
 
       .crowd-wrap {
-        margin-top: 2px;
-        gap: 6px;
+        margin-top: 1px;
+        gap: 3px;
       }
 
       .crowd-row.back-row {
-        margin-bottom: -74px;
+        margin-bottom: -72px;
       }
 
       .crowd-row.mid-row {
-        margin-bottom: -46px;
+        margin-bottom: -45px;
       }
 
       .crowd-card {
         flex-basis: 14.2857%;
-        width: calc(14.2857% + 68px);
-        margin-left: -30px;
+        width: calc(14.2857% + 66px);
+        margin-left: -28px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 84px;
-        max-height: 102px;
+        min-height: 78px;
+        max-height: 96px;
+      }
+
+      .crowd-card.is-new-late .character-sprite {
+        min-height: 90px;
+        max-height: 110px;
+      }
+
+      .crowd-row.back-row .crowd-card .character-sprite {
+        min-height: 86px;
+        max-height: 104px;
+      }
+
+      .crowd-row.mid-row .crowd-card .character-sprite {
+        min-height: 82px;
+        max-height: 100px;
+      }
+
+      .profile-section {
+        gap: 8px;
       }
 
       .profile-row {
         grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: 12px;
+        gap: 9px;
+      }
+
+      .profile-card {
+        padding: 7px 4px;
+        border-radius: 13px;
       }
 
       .profile-card .character-sprite {
-        max-width: 72px;
-        min-height: 72px;
+        max-width: 66px;
+        min-height: 66px;
+        margin: 0 auto 3px;
       }
 
       .profile-name {
-        font-size: 0.75rem;
+        font-size: 0.62rem;
+      }
+
+      .pixel-panel {
+        padding: 11px;
+        border-radius: 16px;
+      }
+
+      .pixel-button {
+        padding: 9px 13px;
+        font-size: 0.93rem;
+        border-radius: 14px;
+      }
+
+      .interview-header {
+        gap: 7px;
+      }
+
+      .speech-bubble {
+        padding: 14px 15px;
+        font-size: 0.88rem;
+        min-height: 80px;
+        border-radius: 22px;
+        line-height: 1.5;
+      }
+
+      .selected-card {
+        padding: 15px;
+        border-radius: 23px;
+      }
+
+      .selected-card .character-sprite {
+        width: min(54vw, 150px);
+      }
+
+      .selected-name {
+        font-size: 0.92rem;
+        margin-top: 7px;
+      }
+
+      .interview-stage {
+        gap: 11px;
+      }
+
+      .question-list {
+        gap: 8px;
+      }
+
+      .question-list button {
+        padding: 11px 12px;
+        font-size: 0.9rem;
+        border-radius: 15px;
       }
     }
   </style>
@@ -1222,7 +1210,6 @@
 
       <div class="interview-stage">
         <div class="selected-card pixel-panel">
-          <div class="selected-effects" id="selectedEffects" aria-hidden="true"></div>
           <div class="character-sprite" id="selectedSprite"></div>
           <div class="selected-name" id="selectedName">Personnage</div>
         </div>
@@ -1540,8 +1527,8 @@
         name: "Noé",
         color: "#9ad8ff",
         avatarPlaceholder: "hex",
-        sprite: "assets/sprites/noe-removebg-preview.png",
-        buttonSprite: "assets/sprites/noe-removebg-preview-face.png",
+        sprite: "assets/sprites/Noé-removebg-preview.png",
+        buttonSprite: "assets/sprites/Noé-removebg-preview-face.png",
         answers: {
           favorite: "Son enthousiasme.",
           song: "Estrelar - Marcos Valle (omg merci de m'avoir montré ce son !!)",
@@ -1628,8 +1615,6 @@
     const dialogBubble = document.getElementById("dialogBubble");
     const selectedSprite = document.getElementById("selectedSprite");
     const selectedName = document.getElementById("selectedName");
-    const selectedCard = document.querySelector(".selected-card");
-    const selectedEffects = document.getElementById("selectedEffects");
 
     let selectedPersonId = people[0].id;
 
@@ -1667,49 +1652,6 @@
       }
       sprite.setAttribute("aria-label", person.name);
       return sprite;
-    }
-
-    function createEffectLayer(effectType) {
-      const spriteMap = {
-        fabien: "assets/sprites/rose-effect.png",
-        manon: "assets/sprites/soleil-effect.png",
-        lorenzo: "assets/sprites/jeu-effect.png"
-      };
-      const extraMap = {
-        fabien: "assets/sprites/coeur-effect.png",
-        manon: "assets/sprites/soleil-effect.png",
-        lorenzo: "assets/sprites/jeu-effect.png"
-      };
-      const layer = document.createElement("div");
-      layer.className = "effect-layer";
-      for (let i = 1; i <= 8; i += 1) {
-        const item = document.createElement("img");
-        item.className = `effect-item v${i}`;
-        item.alt = "";
-        item.setAttribute("aria-hidden", "true");
-        item.loading = "lazy";
-        item.src = effectType === "fabien" && i % 2 === 0 ? extraMap[effectType] : spriteMap[effectType];
-        layer.appendChild(item);
-      }
-      return layer;
-    }
-
-    function applySelectedEffects(person) {
-      selectedCard.classList.remove("effect-fabien", "effect-manon", "effect-lorenzo");
-      selectedEffects.innerHTML = "";
-
-      if (person.id === "fabien") {
-        selectedCard.classList.add("effect-fabien");
-        selectedEffects.appendChild(createEffectLayer("fabien"));
-      }
-      if (person.id === "manon") {
-        selectedCard.classList.add("effect-manon");
-        selectedEffects.appendChild(createEffectLayer("manon"));
-      }
-      if (person.id === "lorenzo") {
-        selectedCard.classList.add("effect-lorenzo");
-        selectedEffects.appendChild(createEffectLayer("lorenzo"));
-      }
     }
 
     function renderCrowd() {
@@ -1783,7 +1725,6 @@
       } else {
         selectedSprite.style.setProperty("--char-color", person.color);
       }
-      applySelectedEffects(person);
       selectedName.textContent = person.name;
       dialogBubble.textContent = person.answers.goodbye;
       dialogBubble.classList.remove("visible");
