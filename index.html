@@ -191,37 +191,44 @@
       grid-template-columns: repeat(6, minmax(0, 1fr));
       gap: 0;
       align-items: end;
+      justify-items: center;
     }
 
     .crowd-card {
       position: relative;
       padding: 0;
+      margin-inline: -8px;
+      width: calc(100% + 16px);
       text-align: center;
       border: 0;
       box-shadow: none;
       background: transparent;
       z-index: 1;
+      animation: crowdIdle var(--idle-duration, 3.6s) ease-in-out infinite;
+      animation-delay: var(--idle-delay, 0s);
+      will-change: transform;
     }
 
     .crowd-card.back-row {
-      transform: scale(0.92);
+      transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(0.94);
       transform-origin: bottom center;
       z-index: 1;
     }
 
     .crowd-card.front-row {
-      margin-top: -28px;
+      margin-top: -34px;
+      transform: translate3d(var(--crowd-shift, 0px), 0, 0);
       z-index: 2;
     }
 
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.62 / 1;
-      min-height: 110px;
+      min-height: 118px;
     }
 
     .crowd-card.back-row .character-sprite {
-      min-height: 96px;
+      min-height: 106px;
     }
 
     .character-sprite {
@@ -499,6 +506,21 @@
       }
     }
 
+    @keyframes crowdIdle {
+      0%, 100% {
+        transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(var(--crowd-scale, 1));
+      }
+      25% {
+        transform: translate3d(calc(var(--crowd-shift, 0px) - var(--idle-x, 1px)), calc(var(--idle-y, 1px) * -1), 0) scale(var(--crowd-scale, 1));
+      }
+      50% {
+        transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(var(--crowd-scale, 1));
+      }
+      75% {
+        transform: translate3d(calc(var(--crowd-shift, 0px) + var(--idle-x, 1px)), var(--idle-y, 1px), 0) scale(var(--crowd-scale, 1));
+      }
+    }
+
     @media (min-width: 640px) {
       .app-shell {
         padding-left: 18px;
@@ -518,15 +540,15 @@
       }
 
       .crowd-card.front-row {
-        margin-top: -34px;
+        margin-top: -42px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 138px;
+        min-height: 150px;
       }
 
       .crowd-card.back-row .character-sprite {
-        min-height: 118px;
+        min-height: 130px;
       }
 
       .profile-row {
@@ -844,7 +866,17 @@
       const splitIndex = Math.ceil(people.length / 2);
       people.forEach((person, index) => {
         const card = document.createElement("div");
-        card.className = `crowd-card ${index < splitIndex ? "back-row" : "front-row"}`;
+        const isBackRow = index < splitIndex;
+        card.className = `crowd-card ${isBackRow ? "back-row" : "front-row"}`;
+        const shiftPattern = [-12, -6, 4, 10, -8, 6, -10, 2, 12, -4, 8, -6];
+        const idleXPattern = [1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1];
+        const idleYPattern = [2, 3, 2, 4, 2, 3, 3, 2, 4, 2, 3, 2];
+        card.style.setProperty("--crowd-shift", `${shiftPattern[index % shiftPattern.length]}px`);
+        card.style.setProperty("--crowd-scale", isBackRow ? "0.94" : "1");
+        card.style.setProperty("--idle-x", `${idleXPattern[index % idleXPattern.length]}px`);
+        card.style.setProperty("--idle-y", `${idleYPattern[index % idleYPattern.length]}px`);
+        card.style.setProperty("--idle-duration", `${3.1 + (index % 5) * 0.28}s`);
+        card.style.setProperty("--idle-delay", `${(index % 7) * -0.35}s`);
         card.appendChild(createSprite(person));
 
         crowdWrap.appendChild(card);
