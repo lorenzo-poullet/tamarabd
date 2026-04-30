@@ -226,7 +226,8 @@
     }
 
     .crowd-card.back-row .character-sprite {
-      min-height: 122px;
+      min-height: 54px;
+      overflow: hidden;
     }
 
     .character-sprite {
@@ -263,6 +264,11 @@
       animation: spriteIdle var(--idle-duration, 3.6s) ease-in-out infinite;
       animation-delay: var(--idle-delay, 0s);
       will-change: transform;
+    }
+
+    .crowd-card.back-row .character-sprite.real-sprite img {
+      object-position: center top;
+      transform-origin: center top;
     }
 
     .character-sprite.placeholder.shape-circle {
@@ -359,8 +365,20 @@
     .profile-card .character-sprite {
       width: 100%;
       max-width: 58px;
-      min-height: 56px;
+      min-height: 58px;
       margin: 0 auto 5px;
+    }
+
+    .profile-card .character-sprite.real-sprite {
+      aspect-ratio: 1 / 1;
+      overflow: hidden;
+    }
+
+    .profile-card .character-sprite.real-sprite img {
+      object-position: center 10%;
+      transform: scale(2.05);
+      transform-origin: center 18%;
+      animation: none;
     }
 
     .profile-name {
@@ -554,7 +572,7 @@
       }
 
       .crowd-card.back-row .character-sprite {
-        min-height: 150px;
+        min-height: 64px;
       }
 
       .profile-row {
@@ -568,7 +586,7 @@
 
       .profile-card .character-sprite {
         max-width: 72px;
-        min-height: 68px;
+        min-height: 72px;
       }
 
       .profile-name {
