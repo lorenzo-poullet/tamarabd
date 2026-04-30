@@ -143,35 +143,20 @@
     .group-scene {
       position: relative;
       overflow: hidden;
-      background:
-        linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0) 45%),
-        linear-gradient(180deg, #ffc9ea 0 62%, #c5b7ff 62% 100%);
-      min-height: 320px;
-      padding: 30px 12px 16px;
+      border: none;
+      border-radius: 24px;
+      box-shadow: none;
+      background: #fdf7ff;
+      min-height: 340px;
+      padding: 24px 14px 18px;
     }
 
     .group-scene::before {
-      content: "";
-      position: absolute;
-      inset: auto 0 0 0;
-      height: 82px;
-      background:
-        linear-gradient(0deg, #f8f0ff 0 20%, transparent 20% 100%),
-        repeating-linear-gradient(
-          90deg,
-          #fff7 0 14px,
-          transparent 14px 28px
-        );
-      border-top: var(--pixel-border);
+      display: none;
     }
 
     .message-clouds {
-      position: absolute;
-      inset: 12px 10px auto 10px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 8px;
-      pointer-events: none;
+      display: none;
     }
 
     .mini-bubble {
@@ -186,10 +171,12 @@
 
     .crowd-wrap {
       position: relative;
-      margin-top: 96px;
+      margin-top: 82px;
       display: grid;
-      grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 0;
+      grid-template-columns: repeat(6, minmax(0, 92px));
+      gap: 8px;
+      justify-content: center;
+      padding: 0 6px 10px;
       align-items: end;
       justify-items: center;
       isolation: isolate;
@@ -198,8 +185,7 @@
     .crowd-card {
       position: relative;
       padding: 0;
-      margin-inline: -34px;
-      width: calc(100% + 68px);
+      width: 100%;
       text-align: center;
       border: 0;
       box-shadow: none;
@@ -221,13 +207,20 @@
 
     .crowd-card .character-sprite {
       width: 100%;
-      aspect-ratio: 0.62 / 1;
-      min-height: 136px;
+      aspect-ratio: 0.72 / 1;
+      min-height: 120px;
+      max-height: 146px;
     }
 
     .crowd-card.back-row .character-sprite {
-      min-height: 54px;
+      min-height: 92px;
+      max-height: 116px;
       overflow: hidden;
+    }
+
+    .crowd-card.front-row .character-sprite {
+      min-height: 130px;
+      max-height: 146px;
     }
 
     .character-sprite {
@@ -375,9 +368,12 @@
     }
 
     .profile-card .character-sprite.real-sprite img {
-      object-position: center 10%;
-      transform: scale(2.05);
-      transform-origin: center 18%;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center center;
+      transform: none;
+      transform-origin: center center;
       animation: none;
     }
 
@@ -602,8 +598,6 @@
         <h1>Happy Anniversary Tamara</h1>
       </header>
 
-      <p class="subtitle">Version pixel Y2K mobile-first, prête à recevoir tes vrais sprites.</p>
-
       <div class="group-scene pixel-panel">
         <div class="message-clouds" id="messageClouds"></div>
         <div class="crowd-wrap" id="crowdWrap"></div>
@@ -613,7 +607,6 @@
         <div class="profile-row" id="profileRow"></div>
       </section>
 
-      <p class="footer-note">Clique sur un avatar pour lancer l’interview.</p>
     </section>
 
     <section class="screen" id="screen-interview">
@@ -856,14 +849,22 @@
       return "shape-circle";
     }
 
-    function createSprite(person) {
+    function getButtonSpritePath(spritePath) {
+      if (!spritePath) return null;
+      return spritePath.replace(/\.png$/i, "-face.PNG");
+    }
+
+    function createSprite(person, options = {}) {
       const sprite = document.createElement("div");
-      sprite.className = person.sprite
+      const spriteUrl = options.useButtonSprite
+        ? (person.buttonSprite || getButtonSpritePath(person.sprite))
+        : person.sprite;
+      sprite.className = spriteUrl
         ? "character-sprite real-sprite"
         : `character-sprite placeholder ${shapeClass(person.avatarPlaceholder)}`;
-      if (person.sprite) {
+      if (spriteUrl) {
         const image = document.createElement("img");
-        image.src = person.sprite;
+        image.src = spriteUrl;
         image.alt = person.name;
         image.loading = "lazy";
         sprite.appendChild(image);
@@ -915,7 +916,7 @@
         button.className = "profile-card";
         button.dataset.personId = person.id;
 
-        button.appendChild(createSprite(person));
+        button.appendChild(createSprite(person, { useButtonSprite: true }));
 
         const name = document.createElement("div");
         name.className = "profile-name";
