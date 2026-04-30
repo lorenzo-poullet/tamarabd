@@ -197,16 +197,13 @@
     .crowd-card {
       position: relative;
       padding: 0;
-      margin-inline: -8px;
-      width: calc(100% + 16px);
+      margin-inline: -14px;
+      width: calc(100% + 28px);
       text-align: center;
       border: 0;
       box-shadow: none;
       background: transparent;
       z-index: 1;
-      animation: crowdIdle var(--idle-duration, 3.6s) ease-in-out infinite;
-      animation-delay: var(--idle-delay, 0s);
-      will-change: transform;
     }
 
     .crowd-card.back-row {
@@ -216,7 +213,7 @@
     }
 
     .crowd-card.front-row {
-      margin-top: -34px;
+      margin-top: -42px;
       transform: translate3d(var(--crowd-shift, 0px), 0, 0);
       z-index: 2;
     }
@@ -224,11 +221,11 @@
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.62 / 1;
-      min-height: 118px;
+      min-height: 124px;
     }
 
     .crowd-card.back-row .character-sprite {
-      min-height: 106px;
+      min-height: 112px;
     }
 
     .character-sprite {
@@ -261,6 +258,10 @@
       display: block;
       image-rendering: pixelated;
       image-rendering: crisp-edges;
+      transform-origin: center bottom;
+      animation: spriteIdle var(--idle-duration, 3.6s) ease-in-out infinite;
+      animation-delay: var(--idle-delay, 0s);
+      will-change: transform;
     }
 
     .character-sprite.placeholder.shape-circle {
@@ -506,18 +507,21 @@
       }
     }
 
-    @keyframes crowdIdle {
+    @keyframes spriteIdle {
       0%, 100% {
-        transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(var(--crowd-scale, 1));
+        transform: translateY(0) scaleY(1);
       }
-      25% {
-        transform: translate3d(calc(var(--crowd-shift, 0px) - var(--idle-x, 1px)), calc(var(--idle-y, 1px) * -1), 0) scale(var(--crowd-scale, 1));
+      20% {
+        transform: translateY(calc(var(--idle-rise, 4px) * -0.4)) scaleY(1.01);
       }
-      50% {
-        transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(var(--crowd-scale, 1));
+      40% {
+        transform: translateY(calc(var(--idle-rise, 4px) * -1)) scaleY(1.035);
       }
-      75% {
-        transform: translate3d(calc(var(--crowd-shift, 0px) + var(--idle-x, 1px)), var(--idle-y, 1px), 0) scale(var(--crowd-scale, 1));
+      58% {
+        transform: translateY(calc(var(--idle-rise, 4px) * -0.35)) scaleY(1.012);
+      }
+      76% {
+        transform: translateY(calc(var(--idle-drop, 2px) * 0.35)) scaleY(0.988);
       }
     }
 
@@ -540,15 +544,15 @@
       }
 
       .crowd-card.front-row {
-        margin-top: -42px;
+        margin-top: -50px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 150px;
+        min-height: 158px;
       }
 
       .crowd-card.back-row .character-sprite {
-        min-height: 130px;
+        min-height: 138px;
       }
 
       .profile-row {
@@ -868,15 +872,15 @@
         const card = document.createElement("div");
         const isBackRow = index < splitIndex;
         card.className = `crowd-card ${isBackRow ? "back-row" : "front-row"}`;
-        const shiftPattern = [-12, -6, 4, 10, -8, 6, -10, 2, 12, -4, 8, -6];
-        const idleXPattern = [1, 2, 1, 2, 1, 2, 2, 1, 2, 1, 2, 1];
-        const idleYPattern = [2, 3, 2, 4, 2, 3, 3, 2, 4, 2, 3, 2];
+        const shiftPattern = [-18, -10, -2, 6, -12, -4, -14, -6, 2, 10, -8, 0];
+        const idleRisePattern = [4, 7, 5, 8, 4, 6, 9, 5, 7, 4, 8, 6];
+        const idleDropPattern = [1, 2, 1, 3, 1, 2, 2, 1, 3, 1, 2, 2];
         card.style.setProperty("--crowd-shift", `${shiftPattern[index % shiftPattern.length]}px`);
         card.style.setProperty("--crowd-scale", isBackRow ? "0.94" : "1");
-        card.style.setProperty("--idle-x", `${idleXPattern[index % idleXPattern.length]}px`);
-        card.style.setProperty("--idle-y", `${idleYPattern[index % idleYPattern.length]}px`);
-        card.style.setProperty("--idle-duration", `${3.1 + (index % 5) * 0.28}s`);
-        card.style.setProperty("--idle-delay", `${(index % 7) * -0.35}s`);
+        card.style.setProperty("--idle-rise", `${idleRisePattern[index % idleRisePattern.length]}px`);
+        card.style.setProperty("--idle-drop", `${idleDropPattern[index % idleDropPattern.length]}px`);
+        card.style.setProperty("--idle-duration", `${2.65 + (index % 6) * 0.31}s`);
+        card.style.setProperty("--idle-delay", `${(index % 9) * -0.29}s`);
         card.appendChild(createSprite(person));
 
         crowdWrap.appendChild(card);
