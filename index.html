@@ -186,18 +186,42 @@
 
     .crowd-wrap {
       position: relative;
-      margin-top: 82px;
+      margin-top: 96px;
       display: grid;
       grid-template-columns: repeat(6, minmax(0, 1fr));
-      gap: 8px 6px;
+      gap: 0;
       align-items: end;
     }
 
     .crowd-card {
       position: relative;
-      background: #fff8;
-      padding: 5px 3px 6px;
+      padding: 0;
       text-align: center;
+      border: 0;
+      box-shadow: none;
+      background: transparent;
+      z-index: 1;
+    }
+
+    .crowd-card.back-row {
+      transform: scale(0.92);
+      transform-origin: bottom center;
+      z-index: 1;
+    }
+
+    .crowd-card.front-row {
+      margin-top: -28px;
+      z-index: 2;
+    }
+
+    .crowd-card .character-sprite {
+      width: 100%;
+      aspect-ratio: 0.62 / 1;
+      min-height: 110px;
+    }
+
+    .crowd-card.back-row .character-sprite {
+      min-height: 96px;
     }
 
     .character-sprite {
@@ -485,25 +509,29 @@
 
     @media (max-width: 480px) {
       .group-scene {
-        min-height: 360px;
+        min-height: 430px;
       }
 
       .crowd-wrap {
         grid-template-columns: repeat(4, minmax(0, 1fr));
-        gap: 10px 8px;
+        margin-top: 104px;
+      }
+
+      .crowd-card.front-row {
+        margin-top: -34px;
+      }
+
+      .crowd-card .character-sprite {
+        min-height: 138px;
+      }
+
+      .crowd-card.back-row .character-sprite {
+        min-height: 118px;
       }
 
       .profile-row {
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 10px;
-      }
-
-      .crowd-card {
-        padding: 6px 4px 8px;
-      }
-
-      .char-name {
-        font-size: 0.7rem;
       }
 
       .profile-card {
@@ -813,15 +841,11 @@
 
     function renderCrowd() {
       crowdWrap.innerHTML = "";
-      people.forEach((person) => {
+      const splitIndex = Math.ceil(people.length / 2);
+      people.forEach((person, index) => {
         const card = document.createElement("div");
-        card.className = "crowd-card";
+        card.className = `crowd-card ${index < splitIndex ? "back-row" : "front-row"}`;
         card.appendChild(createSprite(person));
-
-        const name = document.createElement("div");
-        name.className = "char-name";
-        name.textContent = person.name;
-        card.appendChild(name);
 
         crowdWrap.appendChild(card);
       });
