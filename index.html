@@ -199,8 +199,8 @@
       background:
         radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.5), transparent 18%),
         linear-gradient(180deg, rgba(34, 15, 52, 0.1), rgba(255, 255, 255, 0));
-      min-height: 248px;
-      padding: 14px 6px 10px;
+      min-height: 220px;
+      padding: 10px 2px 6px;
       border: 2px solid rgba(255, 107, 183, 0.2);
       animation: scenePulse 4s ease-in-out infinite;
     }
@@ -296,7 +296,7 @@
       margin-top: 0;
       display: flex;
       flex-direction: column;
-      gap: 2px;
+      gap: 0;
       justify-content: flex-start;
       padding: 0;
       align-items: center;
@@ -315,12 +315,12 @@
 
     .crowd-row.back-row {
       z-index: 1;
-      margin-bottom: -112px;
+      margin-bottom: -126px;
     }
 
     .crowd-row.mid-row {
       z-index: 2;
-      margin-bottom: -72px;
+      margin-bottom: -84px;
     }
 
     .crowd-row.front-row {
@@ -331,9 +331,9 @@
       position: relative;
       padding: 0;
       flex: 0 0 calc(100% / var(--row-count));
-      width: calc((100% / var(--row-count)) + 54px);
-      max-width: 98px;
-      margin-left: -22px;
+      width: calc((100% / var(--row-count)) + 68px);
+      max-width: 104px;
+      margin-left: -30px;
       text-align: center;
       border: 0;
       box-shadow: none;
@@ -481,34 +481,34 @@
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.72 / 1;
-      min-height: 108px;
-      max-height: 134px;
+      min-height: 112px;
+      max-height: 140px;
       transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
     }
 
     .crowd-card.is-new-late .character-sprite {
-      min-height: 120px;
-      max-height: 148px;
+      min-height: 126px;
+      max-height: 154px;
     }
 
     .crowd-row.back-row .crowd-card .character-sprite {
-      min-height: 118px;
-      max-height: 146px;
+      min-height: 124px;
+      max-height: 152px;
     }
 
     .crowd-row.mid-row .crowd-card .character-sprite {
-      min-height: 114px;
-      max-height: 140px;
+      min-height: 120px;
+      max-height: 146px;
     }
 
     .crowd-row.back-row .crowd-card.is-new-late .character-sprite {
-      min-height: 128px;
-      max-height: 156px;
+      min-height: 134px;
+      max-height: 162px;
     }
 
     .crowd-row.mid-row .crowd-card.is-new-late .character-sprite {
-      min-height: 124px;
-      max-height: 150px;
+      min-height: 130px;
+      max-height: 156px;
     }
 
     .crowd-row.back-row .character-sprite.real-sprite img {
@@ -1147,32 +1147,32 @@
 
     @media (max-width: 480px) {
       .group-scene {
-        min-height: 220px;
-        padding-top: 12px;
+        min-height: 202px;
+        padding-top: 8px;
       }
 
       .crowd-wrap {
         margin-top: 0;
-        gap: 2px;
+        gap: 0;
       }
 
       .crowd-row.back-row {
-        margin-bottom: -88px;
+        margin-bottom: -98px;
       }
 
       .crowd-row.mid-row {
-        margin-bottom: -58px;
+        margin-bottom: -66px;
       }
 
       .crowd-card {
-        width: calc((100% / var(--row-count)) + 34px);
-        max-width: 74px;
-        margin-left: -16px;
+        width: calc((100% / var(--row-count)) + 42px);
+        max-width: 78px;
+        margin-left: -22px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 88px;
-        max-height: 108px;
+        min-height: 92px;
+        max-height: 114px;
       }
 
       .profile-row {
