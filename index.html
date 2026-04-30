@@ -1,0 +1,879 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Happy Anniversary Tamara</title>
+  <style>
+    :root {
+      /* Couleurs : modifie ici la palette principale */
+      --bg-top: #ff9ddb;
+      --bg-bottom: #a871ff;
+      --panel: #fff8f3;
+      --panel-alt: #d7e8ff;
+      --pink: #ff7cc8;
+      --pink-dark: #ff59b5;
+      --violet: #915eff;
+      --violet-dark: #6b3fe2;
+      --blue: #a8d3ff;
+      --blue-dark: #73b7ff;
+      --ink: #151219;
+      --shadow: #000000;
+      --grid: rgba(255, 255, 255, 0.18);
+      --max-width: 430px;
+      --pixel-shadow: 4px 4px 0 var(--shadow);
+      --pixel-border: 3px solid var(--ink);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html, body {
+      margin: 0;
+      min-height: 100%;
+      font-family: "Courier New", Courier, monospace;
+      background:
+        linear-gradient(180deg, var(--bg-top), var(--bg-bottom)),
+        repeating-linear-gradient(
+          90deg,
+          transparent 0 18px,
+          var(--grid) 18px 19px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 18px,
+          var(--grid) 18px 19px
+        );
+      color: var(--ink);
+    }
+
+    body::before,
+    body::after {
+      content: "";
+      position: fixed;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    body::before {
+      width: 150px;
+      height: 150px;
+      top: 18px;
+      right: -40px;
+      background:
+        radial-gradient(circle at center, #fff9 0 30%, transparent 31%),
+        conic-gradient(from 0deg, #fff6, #ffb8e5, #c4b4ff, #fff6);
+      border: var(--pixel-border);
+      box-shadow: var(--pixel-shadow);
+      opacity: 0.7;
+      clip-path: polygon(50% 0%, 61% 38%, 100% 50%, 61% 62%, 50% 100%, 38% 62%, 0% 50%, 38% 38%);
+    }
+
+    body::after {
+      width: 110px;
+      height: 110px;
+      left: -22px;
+      bottom: 96px;
+      background: linear-gradient(135deg, #fff2, #ffc1e7 50%, #92bcff);
+      border: var(--pixel-border);
+      box-shadow: var(--pixel-shadow);
+      transform: rotate(12deg);
+    }
+
+    .app-shell {
+      position: relative;
+      z-index: 1;
+      width: min(100%, var(--max-width));
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: calc(18px + env(safe-area-inset-top)) 14px calc(20px + env(safe-area-inset-bottom));
+      display: flex;
+      flex-direction: column;
+    }
+
+    .screen {
+      display: none;
+      min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .screen.active {
+      display: flex;
+    }
+
+    .pixel-panel,
+    .speech-bubble,
+    .profile-card,
+    .message-card,
+    .question-list button,
+    .crowd-card {
+      border: var(--pixel-border);
+      box-shadow: var(--pixel-shadow);
+    }
+
+    .pixel-panel {
+      background: var(--panel);
+      padding: 12px;
+    }
+
+    h1, h2, h3, p {
+      margin: 0;
+    }
+
+    .hero-title {
+      background: var(--panel);
+      border: var(--pixel-border);
+      box-shadow: var(--pixel-shadow);
+      padding: 14px;
+      text-align: center;
+      text-transform: uppercase;
+      font-size: clamp(1.5rem, 6vw, 2rem);
+      line-height: 1.1;
+      letter-spacing: 1px;
+    }
+
+    .subtitle {
+      font-size: 0.82rem;
+      text-align: center;
+      opacity: 0.8;
+    }
+
+    .group-scene {
+      position: relative;
+      overflow: hidden;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.45), rgba(255,255,255,0) 45%),
+        linear-gradient(180deg, #ffc9ea 0 62%, #c5b7ff 62% 100%);
+      min-height: 320px;
+      padding: 22px 12px 16px;
+    }
+
+    .group-scene::before {
+      content: "";
+      position: absolute;
+      inset: auto 0 0 0;
+      height: 82px;
+      background:
+        linear-gradient(0deg, #f8f0ff 0 20%, transparent 20% 100%),
+        repeating-linear-gradient(
+          90deg,
+          #fff7 0 14px,
+          transparent 14px 28px
+        );
+      border-top: var(--pixel-border);
+    }
+
+    .message-clouds {
+      position: absolute;
+      inset: 12px 10px auto 10px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+      pointer-events: none;
+    }
+
+    .mini-bubble {
+      padding: 8px;
+      font-size: 0.72rem;
+      line-height: 1.2;
+      background: #fffef8;
+      border: 2px solid var(--ink);
+      box-shadow: 3px 3px 0 var(--shadow);
+      transform: rotate(var(--tilt, 0deg));
+    }
+
+    .crowd-wrap {
+      position: relative;
+      margin-top: 82px;
+      display: grid;
+      grid-template-columns: repeat(6, minmax(0, 1fr));
+      gap: 8px 6px;
+      align-items: end;
+    }
+
+    .crowd-card {
+      position: relative;
+      background: #fff8;
+      padding: 5px 3px 6px;
+      text-align: center;
+    }
+
+    .character-sprite {
+      /* Remplace le placeholder géométrique par tes vrais sprites ici */
+      display: block;
+      width: 100%;
+      aspect-ratio: 1 / 1.1;
+      min-height: 44px;
+      border: var(--pixel-border);
+      background: var(--char-color, var(--pink));
+      position: relative;
+      overflow: hidden;
+    }
+
+    .character-sprite::before,
+    .character-sprite::after {
+      content: "";
+      position: absolute;
+      background: var(--ink);
+    }
+
+    .character-sprite.shape-circle {
+      border-radius: 50% 50% 12% 12%;
+    }
+
+    .character-sprite.shape-diamond {
+      clip-path: polygon(50% 0%, 100% 44%, 82% 100%, 18% 100%, 0% 44%);
+    }
+
+    .character-sprite.shape-hex {
+      clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    }
+
+    .character-sprite::before {
+      width: 10px;
+      height: 10px;
+      left: 22%;
+      top: 28%;
+      box-shadow: 24px 0 0 var(--ink);
+    }
+
+    .character-sprite::after {
+      width: 38%;
+      height: 8px;
+      left: 31%;
+      top: 58%;
+    }
+
+    .char-name {
+      margin-top: 5px;
+      font-size: 0.62rem;
+      font-weight: 700;
+    }
+
+    .pixel-button {
+      appearance: none;
+      border: var(--pixel-border);
+      background: var(--pink);
+      color: var(--ink);
+      box-shadow: var(--pixel-shadow);
+      font: inherit;
+      padding: 10px 12px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+      transition: transform 120ms ease, box-shadow 120ms ease, background 120ms ease;
+    }
+
+    .pixel-button:active {
+      transform: translate(3px, 3px);
+      box-shadow: 1px 1px 0 var(--shadow);
+    }
+
+    .pixel-button.secondary {
+      background: var(--panel-alt);
+    }
+
+    .pixel-button.ghost {
+      background: #fff;
+    }
+
+    .button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .profile-section {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .profile-row {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .profile-card {
+      background: var(--panel);
+      padding: 6px 4px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 120ms ease;
+    }
+
+    .profile-card:active {
+      transform: translate(2px, 2px);
+      box-shadow: 2px 2px 0 var(--shadow);
+    }
+
+    .profile-card .character-sprite {
+      width: 100%;
+      max-width: 58px;
+      min-height: 56px;
+      margin: 0 auto 5px;
+    }
+
+    .profile-name {
+      font-size: 0.66rem;
+      font-weight: 700;
+    }
+
+    .interview-header {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .speech-bubble {
+      position: relative;
+      background: #fffdf8;
+      padding: 14px;
+      min-height: 90px;
+      font-size: 0.92rem;
+      line-height: 1.35;
+    }
+
+    .speech-bubble::after {
+      content: "";
+      position: absolute;
+      left: 24px;
+      bottom: -14px;
+      width: 18px;
+      height: 18px;
+      background: #fffdf8;
+      border-right: var(--pixel-border);
+      border-bottom: var(--pixel-border);
+      transform: rotate(45deg);
+    }
+
+    .speech-bubble.visible {
+      animation: bubbleIn 180ms steps(4, end);
+    }
+
+    .interview-stage {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .selected-card {
+      background: linear-gradient(180deg, #ffe7f6, #e0d8ff);
+      display: grid;
+      place-items: center;
+      padding: 16px;
+    }
+
+    .selected-card .character-sprite {
+      width: min(58vw, 190px);
+      border-width: 4px;
+      box-shadow: 6px 6px 0 var(--shadow);
+    }
+
+    .selected-card .character-sprite.bounce {
+      animation: bounce 900ms infinite steps(2, end);
+    }
+
+    .selected-name {
+      margin-top: 10px;
+      font-size: 1rem;
+      font-weight: 700;
+      text-transform: uppercase;
+    }
+
+    .question-list {
+      display: grid;
+      gap: 10px;
+    }
+
+    .question-list button {
+      width: 100%;
+      text-align: left;
+      background: var(--blue);
+      padding: 12px;
+      font: inherit;
+    }
+
+    .messages-list {
+      display: grid;
+      gap: 12px;
+      padding-bottom: 8px;
+    }
+
+    .message-card {
+      background: var(--panel);
+      padding: 12px;
+      display: grid;
+      grid-template-columns: 72px 1fr;
+      gap: 10px;
+      align-items: start;
+    }
+
+    .message-card .character-sprite {
+      width: 100%;
+      max-width: 72px;
+    }
+
+    .message-name {
+      font-size: 0.96rem;
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .message-question {
+      display: inline-block;
+      margin-bottom: 8px;
+      padding: 5px 7px;
+      background: var(--panel-alt);
+      border: 2px solid var(--ink);
+      font-size: 0.72rem;
+      text-transform: uppercase;
+    }
+
+    .message-answer {
+      font-size: 0.88rem;
+      line-height: 1.35;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 0.75rem;
+      opacity: 0.82;
+      margin-top: auto;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes bubbleIn {
+      from {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @media (min-width: 640px) {
+      .app-shell {
+        padding-left: 18px;
+        padding-right: 18px;
+      }
+
+    }
+
+    @media (max-width: 480px) {
+      .group-scene {
+        min-height: 360px;
+      }
+
+      .crowd-wrap {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 10px 8px;
+      }
+
+      .profile-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .crowd-card {
+        padding: 6px 4px 8px;
+      }
+
+      .char-name {
+        font-size: 0.7rem;
+      }
+
+      .profile-card {
+        padding: 8px 6px;
+      }
+
+      .profile-card .character-sprite {
+        max-width: 72px;
+        min-height: 68px;
+      }
+
+      .profile-name {
+        font-size: 0.72rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="app-shell">
+    <section class="screen active" id="screen-group">
+      <header class="hero-title">
+        <h1>Happy Anniversary Tamara</h1>
+      </header>
+
+      <p class="subtitle">Version pixel Y2K mobile-first, prête à recevoir tes vrais sprites.</p>
+
+      <div class="group-scene pixel-panel">
+        <div class="message-clouds" id="messageClouds"></div>
+        <div class="crowd-wrap" id="crowdWrap"></div>
+      </div>
+
+      <section class="profile-section">
+        <div class="profile-row" id="profileRow"></div>
+      </section>
+
+      <p class="footer-note">Clique sur un avatar pour lancer l’interview.</p>
+    </section>
+
+    <section class="screen" id="screen-interview">
+      <div class="interview-header">
+        <button class="pixel-button ghost" type="button" data-action="back-group">Retour groupe</button>
+      </div>
+
+      <div class="speech-bubble" id="dialogBubble">Choisis une question pour afficher la réponse.</div>
+
+      <div class="interview-stage">
+        <div class="selected-card pixel-panel">
+          <div class="character-sprite" id="selectedSprite"></div>
+          <div class="selected-name" id="selectedName">Personnage</div>
+        </div>
+
+        <div class="pixel-panel">
+          <h2>Questions</h2>
+        </div>
+
+        <div class="question-list" id="questionList"></div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Questions : modifie ici les intitulés et les clés utilisées dans les réponses
+    const questions = [
+      { key: "favorite", label: "Ce que tu préfères chez Tamara ?" },
+      { key: "memory", label: "Ton meilleur souvenir avec elle ?" },
+      { key: "words", label: "Tamara en 3 mots ?" },
+      { key: "goodbye", label: "Un message pour son départ ?" },
+      { key: "emoji", label: "Un emoji qui la représente ?" }
+    ];
+
+    const birthdayBubbles = [
+      "Joyeux anniv Tamara 💖",
+      "On t’aime fort",
+      "Tu vas nous manquer",
+      "Team Tamara forever",
+      "Toujours iconique",
+      "Pixel love only"
+    ];
+
+    // Personnages : remplace avatarPlaceholder / shape plus tard par tes vrais sprites pixel art
+    // Réponses : modifie ici facilement chaque réponse par personnage
+    const people = [
+      {
+        id: "lina",
+        name: "Lina",
+        color: "#ff8ac8",
+        avatarPlaceholder: "circle",
+        answers: {
+          favorite: "Sa bonne humeur même quand elle fait semblant d’etre calme.",
+          memory: "Le moment ou elle nous a tous fait rire sans meme essayer.",
+          words: "Solaire, drole, iconique.",
+          goodbye: "N’oublie pas qu’ici tu as laisse beaucoup de souvenirs.",
+          emoji: "🌴 parce qu’elle ramene toujours une vibe soleil."
+        }
+      },
+      {
+        id: "maya",
+        name: "Maya",
+        color: "#9a7cff",
+        avatarPlaceholder: "diamond",
+        answers: {
+          favorite: "Sa facon d’ecouter vraiment les gens.",
+          memory: "Notre fou rire improvise pendant une pause trop courte.",
+          words: "Douce, brillante, memorable.",
+          goodbye: "J’espere que ta suite sera aussi lumineuse que toi.",
+          emoji: "✨ parce qu’elle laisse une trace partout."
+        }
+      },
+      {
+        id: "ines",
+        name: "Ines",
+        color: "#7fc6ff",
+        avatarPlaceholder: "hex",
+        answers: {
+          favorite: "Son energie calme qui rassure tout le monde.",
+          memory: "Le jour ou on a improvise un plan parfait en cinq minutes.",
+          words: "Fine, loyale, drole.",
+          goodbye: "Tu pars peut-etre, mais ton style reste avec nous.",
+          emoji: "🫶 parce qu’elle a le coeur immense."
+        }
+      },
+      {
+        id: "zoe",
+        name: "Zoe",
+        color: "#ffa4d7",
+        avatarPlaceholder: "circle",
+        answers: {
+          favorite: "Son sens du detail et ses reactions legendairement sinceres.",
+          memory: "Le trajet ou on a parle de tout jusqu’a oublier l’heure.",
+          words: "Unique, vive, attachante.",
+          goodbye: "Promis, on garde ta place dans toutes les discussions.",
+          emoji: "🎀 parce qu’elle rend tout plus cute."
+        }
+      },
+      {
+        id: "sarah",
+        name: "Sarah",
+        color: "#b68dff",
+        avatarPlaceholder: "diamond",
+        answers: {
+          favorite: "Sa facon de mettre tout le monde a l’aise.",
+          memory: "Le jour ou on a fini par rire au lieu de stresser.",
+          words: "Classe, drole, sincere.",
+          goodbye: "Que cette nouvelle etape te ressemble vraiment.",
+          emoji: "💫 parce qu’elle fait toujours son effet."
+        }
+      },
+      {
+        id: "nora",
+        name: "Nora",
+        color: "#89d1ff",
+        avatarPlaceholder: "hex",
+        answers: {
+          favorite: "Son regard hyper juste sur les choses.",
+          memory: "Le debrief improvise devenu discussion de deux heures.",
+          words: "Lucide, fun, rare.",
+          goodbye: "Va tout casser la-bas, on suit de loin mais fort.",
+          emoji: "🦋 parce qu’elle evolue sans perdre sa douceur."
+        }
+      },
+      {
+        id: "jade",
+        name: "Jade",
+        color: "#ff95bc",
+        avatarPlaceholder: "circle",
+        answers: {
+          favorite: "Son humour discret qui arrive toujours au bon moment.",
+          memory: "Le jour ou elle a sauve l’ambiance sans prevenir.",
+          words: "Petillante, maligne, chic.",
+          goodbye: "On veut des nouvelles et beaucoup de photos de ta suite.",
+          emoji: "🌸 parce qu’elle apporte de la douceur partout."
+        }
+      },
+      {
+        id: "clara",
+        name: "Clara",
+        color: "#8d74ff",
+        avatarPlaceholder: "diamond",
+        answers: {
+          favorite: "Sa patience et son sens du timing parfait.",
+          memory: "La fois ou son commentaire a lance un fou rire general.",
+          words: "Patiente, lumineuse, cool.",
+          goodbye: "Ton chapitre d’apres a interet a etre grandiose.",
+          emoji: "🎧 parce qu’elle a sa propre vibe."
+        }
+      },
+      {
+        id: "emma",
+        name: "Emma",
+        color: "#8bc8ff",
+        avatarPlaceholder: "hex",
+        answers: {
+          favorite: "Sa sincerite sans jamais perdre sa tendresse.",
+          memory: "Notre mini celebration improvisee pour rien du tout.",
+          words: "Fraiche, vraie, solaire.",
+          goodbye: "Merci d’avoir rendu cette periode plus belle.",
+          emoji: "🌈 parce qu’elle change l’humeur d’une piece."
+        }
+      },
+      {
+        id: "lea",
+        name: "Lea",
+        color: "#ff88d0",
+        avatarPlaceholder: "circle",
+        answers: {
+          favorite: "Sa facon de transformer le banal en moment marquant.",
+          memory: "Le running gag qui n’a jamais cesse d’etre drole.",
+          words: "Vive, cool, inoubliable.",
+          goodbye: "Tu laisses ici un vide tres difficile a styliser.",
+          emoji: "💿 parce qu’elle a un vrai energie Y2K."
+        }
+      },
+      {
+        id: "aya",
+        name: "Aya",
+        color: "#ad87ff",
+        avatarPlaceholder: "diamond",
+        answers: {
+          favorite: "Son mix parfait entre douceur et caractere.",
+          memory: "Le jour ou elle a su quoi dire exactement.",
+          words: "Drôle, fine, solaire.",
+          goodbye: "Ton prochain groupe a beaucoup de chance.",
+          emoji: "🌟 parce qu’elle brille sans forcer."
+        }
+      },
+      {
+        id: "lola",
+        name: "Lola",
+        color: "#75c2ff",
+        avatarPlaceholder: "hex",
+        answers: {
+          favorite: "Sa presence qui rend tout tout de suite plus simple.",
+          memory: "La conversation de fin de journee qu’on n’a jamais oubliee.",
+          words: "Douce, forte, stylée.",
+          goodbye: "Reviens nous raconter toutes tes nouvelles aventures.",
+          emoji: "🪩 parce qu’elle met de la lumiere partout."
+        }
+      }
+    ];
+
+    const screens = {
+      group: document.getElementById("screen-group"),
+      interview: document.getElementById("screen-interview")
+    };
+
+    const profileRow = document.getElementById("profileRow");
+    const crowdWrap = document.getElementById("crowdWrap");
+    const messageClouds = document.getElementById("messageClouds");
+    const questionList = document.getElementById("questionList");
+    const dialogBubble = document.getElementById("dialogBubble");
+    const selectedSprite = document.getElementById("selectedSprite");
+    const selectedName = document.getElementById("selectedName");
+
+    let selectedPersonId = people[0].id;
+
+    function getPerson(id) {
+      return people.find(person => person.id === id) || people[0];
+    }
+
+    function shapeClass(shape) {
+      if (shape === "diamond") return "shape-diamond";
+      if (shape === "hex") return "shape-hex";
+      return "shape-circle";
+    }
+
+    function createSprite(person) {
+      const sprite = document.createElement("div");
+      sprite.className = `character-sprite ${shapeClass(person.avatarPlaceholder)}`;
+      sprite.style.setProperty("--char-color", person.color);
+      sprite.setAttribute("aria-label", person.name);
+      return sprite;
+    }
+
+    function renderClouds() {
+      messageClouds.innerHTML = "";
+      birthdayBubbles.forEach((message, index) => {
+        const bubble = document.createElement("div");
+        bubble.className = "mini-bubble";
+        bubble.textContent = message;
+        bubble.style.setProperty("--tilt", `${index % 2 === 0 ? -3 : 3}deg`);
+        messageClouds.appendChild(bubble);
+      });
+    }
+
+    function renderCrowd() {
+      crowdWrap.innerHTML = "";
+      people.forEach((person) => {
+        const card = document.createElement("div");
+        card.className = "crowd-card";
+        card.appendChild(createSprite(person));
+
+        const name = document.createElement("div");
+        name.className = "char-name";
+        name.textContent = person.name;
+        card.appendChild(name);
+
+        crowdWrap.appendChild(card);
+      });
+    }
+
+    function renderProfiles() {
+      profileRow.innerHTML = "";
+      people.forEach((person) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = "profile-card";
+        button.dataset.personId = person.id;
+
+        button.appendChild(createSprite(person));
+
+        const name = document.createElement("div");
+        name.className = "profile-name";
+        name.textContent = person.name;
+        button.appendChild(name);
+
+        profileRow.appendChild(button);
+      });
+    }
+
+    function renderQuestions() {
+      questionList.innerHTML = "";
+      questions.forEach((question) => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.textContent = question.label;
+        button.dataset.questionKey = question.key;
+        questionList.appendChild(button);
+      });
+    }
+
+    function renderSelectedPerson() {
+      const person = getPerson(selectedPersonId);
+      selectedSprite.className = `character-sprite ${shapeClass(person.avatarPlaceholder)} bounce`;
+      selectedSprite.style.setProperty("--char-color", person.color);
+      selectedName.textContent = person.name;
+      dialogBubble.textContent = `${person.name} est pret·e pour l’interview.`;
+      dialogBubble.classList.remove("visible");
+    }
+
+    function showScreen(name) {
+      Object.entries(screens).forEach(([key, screen]) => {
+        screen.classList.toggle("active", key === name);
+      });
+    }
+
+    function openInterview(personId) {
+      selectedPersonId = personId;
+      renderSelectedPerson();
+      showScreen("interview");
+    }
+
+    profileRow.addEventListener("click", (event) => {
+      const button = event.target.closest(".profile-card");
+      if (!button) return;
+      openInterview(button.dataset.personId);
+    });
+
+    questionList.addEventListener("click", (event) => {
+      const button = event.target.closest("button[data-question-key]");
+      if (!button) return;
+      const person = getPerson(selectedPersonId);
+      const question = questions.find(item => item.key === button.dataset.questionKey);
+      dialogBubble.textContent = `${person.name} : ${person.answers[question.key]}`;
+      dialogBubble.classList.remove("visible");
+      void dialogBubble.offsetWidth;
+      dialogBubble.classList.add("visible");
+    });
+
+    document.addEventListener("click", (event) => {
+      const action = event.target.closest("[data-action]")?.dataset.action;
+      if (!action) return;
+
+      if (action === "back-group") {
+        showScreen("group");
+      }
+    });
+
+    renderClouds();
+    renderCrowd();
+    renderProfiles();
+    renderQuestions();
+    renderSelectedPerson();
+  </script>
+</body>
+</html>
