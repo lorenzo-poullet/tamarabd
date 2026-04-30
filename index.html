@@ -206,32 +206,45 @@
       width: 100%;
       aspect-ratio: 1 / 1.1;
       min-height: 44px;
-      border: var(--pixel-border);
-      background: var(--char-color, var(--pink));
       position: relative;
       overflow: hidden;
     }
 
-    .character-sprite::before,
-    .character-sprite::after {
+    .character-sprite.placeholder {
+      border: var(--pixel-border);
+      background: var(--char-color, var(--pink));
+    }
+
+    .character-sprite.placeholder::before,
+    .character-sprite.placeholder::after {
       content: "";
       position: absolute;
       background: var(--ink);
     }
 
-    .character-sprite.shape-circle {
+    .character-sprite.real-sprite img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      object-position: center bottom;
+      display: block;
+      image-rendering: pixelated;
+      image-rendering: crisp-edges;
+    }
+
+    .character-sprite.placeholder.shape-circle {
       border-radius: 50% 50% 12% 12%;
     }
 
-    .character-sprite.shape-diamond {
+    .character-sprite.placeholder.shape-diamond {
       clip-path: polygon(50% 0%, 100% 44%, 82% 100%, 18% 100%, 0% 44%);
     }
 
-    .character-sprite.shape-hex {
+    .character-sprite.placeholder.shape-hex {
       clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
     }
 
-    .character-sprite::before {
+    .character-sprite.placeholder::before {
       width: 10px;
       height: 10px;
       left: 22%;
@@ -239,7 +252,7 @@
       box-shadow: 24px 0 0 var(--ink);
     }
 
-    .character-sprite::after {
+    .character-sprite.placeholder::after {
       width: 38%;
       height: 8px;
       left: 31%;
@@ -579,6 +592,7 @@
         name: "Lina",
         color: "#ff8ac8",
         avatarPlaceholder: "circle",
+        sprite: "assets/sprites/Antonia-removebg-preview.png",
         answers: {
           favorite: "Sa bonne humeur même quand elle fait semblant d’etre calme.",
           memory: "Le moment ou elle nous a tous fait rire sans meme essayer.",
@@ -592,6 +606,7 @@
         name: "Maya",
         color: "#9a7cff",
         avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Claudia-removebg-preview.png",
         answers: {
           favorite: "Sa facon d’ecouter vraiment les gens.",
           memory: "Notre fou rire improvise pendant une pause trop courte.",
@@ -605,6 +620,7 @@
         name: "Ines",
         color: "#7fc6ff",
         avatarPlaceholder: "hex",
+        sprite: "assets/sprites/Esperado-removebg-preview.png",
         answers: {
           favorite: "Son energie calme qui rassure tout le monde.",
           memory: "Le jour ou on a improvise un plan parfait en cinq minutes.",
@@ -618,6 +634,7 @@
         name: "Zoe",
         color: "#ffa4d7",
         avatarPlaceholder: "circle",
+        sprite: "assets/sprites/Estheda-removebg-preview.png",
         answers: {
           favorite: "Son sens du detail et ses reactions legendairement sinceres.",
           memory: "Le trajet ou on a parle de tout jusqu’a oublier l’heure.",
@@ -631,6 +648,7 @@
         name: "Sarah",
         color: "#b68dff",
         avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Kawai-removebg-preview.png",
         answers: {
           favorite: "Sa facon de mettre tout le monde a l’aise.",
           memory: "Le jour ou on a fini par rire au lieu de stresser.",
@@ -644,6 +662,7 @@
         name: "Nora",
         color: "#89d1ff",
         avatarPlaceholder: "hex",
+        sprite: "assets/sprites/lorenzo-removebg-preview.png",
         answers: {
           favorite: "Son regard hyper juste sur les choses.",
           memory: "Le debrief improvise devenu discussion de deux heures.",
@@ -657,6 +676,7 @@
         name: "Jade",
         color: "#ff95bc",
         avatarPlaceholder: "circle",
+        sprite: "assets/sprites/manon-removebg-preview.png",
         answers: {
           favorite: "Son humour discret qui arrive toujours au bon moment.",
           memory: "Le jour ou elle a sauve l’ambiance sans prevenir.",
@@ -670,6 +690,7 @@
         name: "Clara",
         color: "#8d74ff",
         avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Marie-Lou-removebg-preview.png",
         answers: {
           favorite: "Sa patience et son sens du timing parfait.",
           memory: "La fois ou son commentaire a lance un fou rire general.",
@@ -683,6 +704,7 @@
         name: "Emma",
         color: "#8bc8ff",
         avatarPlaceholder: "hex",
+        sprite: "assets/sprites/naima-removebg-preview.png",
         answers: {
           favorite: "Sa sincerite sans jamais perdre sa tendresse.",
           memory: "Notre mini celebration improvisee pour rien du tout.",
@@ -696,6 +718,7 @@
         name: "Lea",
         color: "#ff88d0",
         avatarPlaceholder: "circle",
+        sprite: "assets/sprites/NEK-removebg-preview.png",
         answers: {
           favorite: "Sa facon de transformer le banal en moment marquant.",
           memory: "Le running gag qui n’a jamais cesse d’etre drole.",
@@ -709,6 +732,7 @@
         name: "Aya",
         color: "#ad87ff",
         avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/Serena-removebg-preview.png",
         answers: {
           favorite: "Son mix parfait entre douceur et caractere.",
           memory: "Le jour ou elle a su quoi dire exactement.",
@@ -722,6 +746,7 @@
         name: "Lola",
         color: "#75c2ff",
         avatarPlaceholder: "hex",
+        sprite: "assets/sprites/Shyb-removebg-preview.png",
         answers: {
           favorite: "Sa presence qui rend tout tout de suite plus simple.",
           memory: "La conversation de fin de journee qu’on n’a jamais oubliee.",
@@ -759,8 +784,18 @@
 
     function createSprite(person) {
       const sprite = document.createElement("div");
-      sprite.className = `character-sprite ${shapeClass(person.avatarPlaceholder)}`;
-      sprite.style.setProperty("--char-color", person.color);
+      sprite.className = person.sprite
+        ? "character-sprite real-sprite"
+        : `character-sprite placeholder ${shapeClass(person.avatarPlaceholder)}`;
+      if (person.sprite) {
+        const image = document.createElement("img");
+        image.src = person.sprite;
+        image.alt = person.name;
+        image.loading = "lazy";
+        sprite.appendChild(image);
+      } else {
+        sprite.style.setProperty("--char-color", person.color);
+      }
       sprite.setAttribute("aria-label", person.name);
       return sprite;
     }
@@ -824,8 +859,18 @@
 
     function renderSelectedPerson() {
       const person = getPerson(selectedPersonId);
-      selectedSprite.className = `character-sprite ${shapeClass(person.avatarPlaceholder)} bounce`;
-      selectedSprite.style.setProperty("--char-color", person.color);
+      selectedSprite.className = person.sprite
+        ? "character-sprite real-sprite bounce"
+        : `character-sprite placeholder ${shapeClass(person.avatarPlaceholder)} bounce`;
+      selectedSprite.innerHTML = "";
+      if (person.sprite) {
+        const image = document.createElement("img");
+        image.src = person.sprite;
+        image.alt = person.name;
+        selectedSprite.appendChild(image);
+      } else {
+        selectedSprite.style.setProperty("--char-color", person.color);
+      }
       selectedName.textContent = person.name;
       dialogBubble.textContent = `${person.name} est pret·e pour l’interview.`;
       dialogBubble.classList.remove("visible");
