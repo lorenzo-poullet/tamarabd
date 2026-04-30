@@ -141,8 +141,8 @@
       border-radius: 24px;
       box-shadow: none;
       background: #fdf7ff;
-      min-height: 340px;
-      padding: 24px 14px 18px;
+      min-height: 260px;
+      padding: 18px 10px 14px;
     }
 
     .group-scene::before {
@@ -151,21 +151,29 @@
 
     .crowd-wrap {
       position: relative;
-      margin-top: 82px;
-      display: grid;
-      grid-template-columns: repeat(6, minmax(0, 92px));
-      gap: 8px;
-      justify-content: center;
-      padding: 0 6px 10px;
-      align-items: end;
-      justify-items: center;
+      margin-top: 4px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      justify-content: flex-start;
+      padding: 0;
+      align-items: center;
       isolation: isolate;
+    }
+
+    .crowd-row {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: end;
     }
 
     .crowd-card {
       position: relative;
       padding: 0;
-      width: 100%;
+      flex: 0 0 12.5%;
+      width: calc(12.5% + 110px);
+      margin-left: -48px;
       text-align: center;
       border: 0;
       box-shadow: none;
@@ -173,34 +181,19 @@
       z-index: 1;
     }
 
-    .crowd-card.back-row {
-      transform: translate3d(var(--crowd-shift, 0px), 0, 0) scale(0.95);
-      transform-origin: bottom center;
-      z-index: 1;
+    .crowd-row .crowd-card:first-child {
+      margin-left: 0;
     }
 
-    .crowd-card.front-row {
-      margin-top: -74px;
-      transform: translate3d(var(--crowd-shift, 0px), 0, 0);
-      z-index: 3;
+    .crowd-card:nth-child(odd) {
+      z-index: 2;
     }
 
     .crowd-card .character-sprite {
       width: 100%;
       aspect-ratio: 0.72 / 1;
-      min-height: 120px;
-      max-height: 146px;
-    }
-
-    .crowd-card.back-row .character-sprite {
-      min-height: 92px;
-      max-height: 116px;
-      overflow: hidden;
-    }
-
-    .crowd-card.front-row .character-sprite {
-      min-height: 130px;
-      max-height: 146px;
+      min-height: 104px;
+      max-height: 128px;
     }
 
     .character-sprite {
@@ -234,14 +227,6 @@
       image-rendering: pixelated;
       image-rendering: crisp-edges;
       transform-origin: center bottom;
-      animation: spriteIdle var(--idle-duration, 3.6s) ease-in-out infinite;
-      animation-delay: var(--idle-delay, 0s);
-      will-change: transform;
-    }
-
-    .crowd-card.back-row .character-sprite.real-sprite img {
-      object-position: center top;
-      transform-origin: center top;
     }
 
     .character-sprite.placeholder.shape-circle {
@@ -369,6 +354,13 @@
       align-items: center;
     }
 
+    #screen-interview .pixel-panel,
+    #screen-interview .speech-bubble,
+    #screen-interview .question-list button {
+      border: 0;
+      box-shadow: none;
+    }
+
     .speech-bubble {
       position: relative;
       background: #fffdf8;
@@ -386,8 +378,6 @@
       width: 18px;
       height: 18px;
       background: #fffdf8;
-      border-right: var(--pixel-border);
-      border-bottom: var(--pixel-border);
       transform: rotate(45deg);
     }
 
@@ -410,12 +400,6 @@
 
     .selected-card .character-sprite {
       width: min(58vw, 190px);
-      border-width: 4px;
-      box-shadow: 6px 6px 0 var(--shadow);
-    }
-
-    .selected-card .character-sprite.bounce {
-      animation: bounce 900ms infinite steps(2, end);
     }
 
     .selected-name {
@@ -486,11 +470,6 @@
       margin-top: auto;
     }
 
-    @keyframes bounce {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-8px); }
-    }
-
     @keyframes bubbleIn {
       from {
         opacity: 0;
@@ -499,24 +478,6 @@
       to {
         opacity: 1;
         transform: translateY(0);
-      }
-    }
-
-    @keyframes spriteIdle {
-      0%, 100% {
-        transform: translateY(0) scaleY(1);
-      }
-      20% {
-        transform: translateY(calc(var(--idle-rise, 3px) * -0.35)) scaleY(1.006);
-      }
-      40% {
-        transform: translateY(calc(var(--idle-rise, 3px) * -1)) scaleY(1.016);
-      }
-      58% {
-        transform: translateY(calc(var(--idle-rise, 3px) * -0.3)) scaleY(1.005);
-      }
-      76% {
-        transform: translateY(calc(var(--idle-drop, 1px) * 0.25)) scaleY(0.996);
       }
     }
 
@@ -530,26 +491,28 @@
 
     @media (max-width: 480px) {
       .group-scene {
-        min-height: 430px;
-        padding-top: 36px;
+        min-height: 220px;
+        padding-top: 16px;
       }
 
       .crowd-wrap {
-        grid-template-columns: repeat(6, minmax(0, 92px));
-        margin-top: 104px;
-        gap: 0;
+        margin-top: 2px;
+        gap: 4px;
       }
 
-      .crowd-card.front-row {
-        margin-top: -86px;
+      .crowd-row {
+        width: 100%;
+      }
+
+      .crowd-card {
+        flex-basis: 14.2857%;
+        width: calc(14.2857% + 68px);
+        margin-left: -30px;
       }
 
       .crowd-card .character-sprite {
-        min-height: 172px;
-      }
-
-      .crowd-card.back-row .character-sprite {
-        min-height: 64px;
+        min-height: 84px;
+        max-height: 102px;
       }
 
       .profile-row {
@@ -625,11 +588,11 @@
     // Réponses : modifie ici facilement chaque réponse par personnage
     const people = [
       {
-        id: "lina",
-        name: "Lina",
+        id: "antooo",
+        name: "Antonia",
         color: "#ff8ac8",
         avatarPlaceholder: "circle",
-        sprite: "assets/sprites/Antonia-removebg-preview.png",
+        sprite: "assets/sprites/antonia.png",
         answers: {
           favorite: "Sa bonne humeur même quand elle fait semblant d’etre calme.",
           memory: "Le moment ou elle nous a tous fait rire sans meme essayer.",
@@ -639,11 +602,11 @@
         }
       },
       {
-        id: "maya",
-        name: "Maya",
+        id: "claudia",
+        name: "Claudia",
         color: "#9a7cff",
         avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/Claudia-removebg-preview.png",
+        sprite: "assets/sprites/claudia.png",
         answers: {
           favorite: "Sa facon d’ecouter vraiment les gens.",
           memory: "Notre fou rire improvise pendant une pause trop courte.",
@@ -653,11 +616,11 @@
         }
       },
       {
-        id: "ines",
-        name: "Ines",
+        id: "esperado",
+        name: "Esperado",
         color: "#7fc6ff",
         avatarPlaceholder: "hex",
-        sprite: "assets/sprites/Esperado-removebg-preview.png",
+        sprite: "assets/sprites/esperado.png",
         answers: {
           favorite: "Son energie calme qui rassure tout le monde.",
           memory: "Le jour ou on a improvise un plan parfait en cinq minutes.",
@@ -667,11 +630,11 @@
         }
       },
       {
-        id: "zoe",
-        name: "Zoe",
+        id: "estheda",
+        name: "Estheda",
         color: "#ffa4d7",
         avatarPlaceholder: "circle",
-        sprite: "assets/sprites/Estheda-removebg-preview.png",
+        sprite: "assets/sprites/estheda.png",
         answers: {
           favorite: "Son sens du detail et ses reactions legendairement sinceres.",
           memory: "Le trajet ou on a parle de tout jusqu’a oublier l’heure.",
@@ -685,7 +648,7 @@
         name: "Sarah",
         color: "#b68dff",
         avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/Kawai-removebg-preview.png",
+        sprite: "assets/sprites/kawai.png",
         answers: {
           favorite: "Sa facon de mettre tout le monde a l’aise.",
           memory: "Le jour ou on a fini par rire au lieu de stresser.",
@@ -695,11 +658,11 @@
         }
       },
       {
-        id: "nora",
-        name: "Nora",
+        id: "lorenzo",
+        name: "Lorenzo",
         color: "#89d1ff",
         avatarPlaceholder: "hex",
-        sprite: "assets/sprites/lorenzo-removebg-preview.png",
+        sprite: "assets/sprites/lorenzo.png",
         answers: {
           favorite: "Son regard hyper juste sur les choses.",
           memory: "Le debrief improvise devenu discussion de deux heures.",
@@ -709,11 +672,11 @@
         }
       },
       {
-        id: "jade",
-        name: "Jade",
+        id: "manon",
+        name: "Manon",
         color: "#ff95bc",
         avatarPlaceholder: "circle",
-        sprite: "assets/sprites/manon-removebg-preview.png",
+        sprite: "assets/sprites/manon.png",
         answers: {
           favorite: "Son humour discret qui arrive toujours au bon moment.",
           memory: "Le jour ou elle a sauve l’ambiance sans prevenir.",
@@ -723,11 +686,11 @@
         }
       },
       {
-        id: "clara",
-        name: "Clara",
+        id: "marilou",
+        name: "Marilou",
         color: "#8d74ff",
         avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/Marie-Lou-removebg-preview.png",
+        sprite: "assets/sprites/marie-lou.png",
         answers: {
           favorite: "Sa patience et son sens du timing parfait.",
           memory: "La fois ou son commentaire a lance un fou rire general.",
@@ -737,11 +700,11 @@
         }
       },
       {
-        id: "emma",
-        name: "Emma",
+        id: "naima",
+        name: "Naima",
         color: "#8bc8ff",
         avatarPlaceholder: "hex",
-        sprite: "assets/sprites/naima-removebg-preview.png",
+        sprite: "assets/sprites/naima.png",
         answers: {
           favorite: "Sa sincerite sans jamais perdre sa tendresse.",
           memory: "Notre mini celebration improvisee pour rien du tout.",
@@ -751,11 +714,11 @@
         }
       },
       {
-        id: "lea",
-        name: "Lea",
+        id: "nek",
+        name: "Indiraaaaa Nek",
         color: "#ff88d0",
         avatarPlaceholder: "circle",
-        sprite: "assets/sprites/NEK-removebg-preview.png",
+        sprite: "assets/sprites/nek.png",
         answers: {
           favorite: "Sa facon de transformer le banal en moment marquant.",
           memory: "Le running gag qui n’a jamais cesse d’etre drole.",
@@ -769,7 +732,7 @@
         name: "Aya",
         color: "#ad87ff",
         avatarPlaceholder: "diamond",
-        sprite: "assets/sprites/Serena-removebg-preview.png",
+        sprite: "assets/sprites/serena.png",
         answers: {
           favorite: "Son mix parfait entre douceur et caractere.",
           memory: "Le jour ou elle a su quoi dire exactement.",
@@ -779,11 +742,11 @@
         }
       },
       {
-        id: "lola",
-        name: "Lola",
+        id: "shishi",
+        name: "Shishi",
         color: "#75c2ff",
         avatarPlaceholder: "hex",
-        sprite: "assets/sprites/Shyb-removebg-preview.png",
+        sprite: "assets/sprites/shyb.png",
         answers: {
           favorite: "Sa presence qui rend tout tout de suite plus simple.",
           memory: "La conversation de fin de journee qu’on n’a jamais oubliee.",
@@ -793,6 +756,221 @@
         }
       }
     ];
+
+    people.splice(
+      0,
+      people.length,
+      {
+        id: "antooo",
+        name: "Antooo",
+        color: "#ff8ac8",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/antonia.png",
+        answers: {
+          favorite: "Sa gentillesse.",
+          memory: "Outfit trop frais.",
+          words: "Magnifique, drole, mignonne.",
+          goodbye: "Coucou Tamara, merci pour cette annee de master. On continuera les gossips quand j'irai connaitre la Guadeloupe.",
+          emoji: "Fleur tropicale."
+        }
+      },
+      {
+        id: "claudia",
+        name: "Claudia",
+        color: "#9a7cff",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/claudia.png",
+        answers: {
+          favorite: "Son humour.",
+          memory: "Sympa cette nana.",
+          words: "Gentille, souriante, chaleureuse.",
+          goodbye: "Hey! Je sais qu'on se connait pas assez, mais je t'apprecie beaucoup. Alors joyeux anniversaire a toi grosse tete, je te souhaite d'etre toujours heureuse, de trouver la paix du coeur et beaucoup d'argent.",
+          emoji: "Rire."
+        }
+      },
+      {
+        id: "esperado",
+        name: "Esperado",
+        color: "#7fc6ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/esperado.png",
+        answers: {
+          favorite: "Joyeuse.",
+          memory: "Calme.",
+          words: "Joyeuse, drole, energique.",
+          goodbye: "Ca fait pas longtemps qu'on se connait mais franchement t'es l'une des rencontres les plus sympa que j'ai eu cette annee. Tu es toujours joyeuse, on s'ennuie jamais avec toi et tu sais etre a l'ecoute quand il le faut, donc pour tout ca je te dis un grand merci et surtout JOYEUX ANNIVERSAIRE.",
+          emoji: "Calin."
+        }
+      },
+      {
+        id: "estheda",
+        name: "Estheda",
+        color: "#ffa4d7",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/estheda.png",
+        answers: {
+          favorite: "Ses principes et ses valeurs.",
+          memory: "On s'est rencontrees en boite et depuis on ne se lache plus.",
+          words: "Belle, doree, solaire.",
+          goodbye: "Tamara je suis extremement chanceuse, honoree et heureuse de t'avoir dans ma vie. Tu es gentille, bienveillante et toi-meme, et ta maman peut etre fiere de la belle femme forte, courageuse et intelligente que tu es devenue. Tu vas me manquer mais je serai toujours la meme a distance.",
+          emoji: "Soleil."
+        }
+      },
+      {
+        id: "lorenzo",
+        name: "Lorenzo",
+        color: "#89d1ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/lorenzo.png",
+        answers: {
+          favorite: "Le fait de bouger ses fesses des qu'elle entend un BPM proche du shatta.",
+          memory: "Poooouuuuu gay on belle ti chabine.",
+          words: "Solaire, Y2K, photogenique.",
+          goodbye: "Hey Tam, j'espere que tu vas aimer ce petit cadeau. Budget serre, mais j'ai mis ce que je pouvais dedans et surtout un peu de moi. Joyeux anniversaire a toi, profite a fond de ta journee, mange bien, rigole bien. T'es une personne en or.",
+          emoji: "Soleil."
+        }
+      },
+      {
+        id: "manon",
+        name: "Manon",
+        color: "#ff95bc",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/manon.png",
+        answers: {
+          favorite: "Sa bougeotte.",
+          memory: "Au debut elle avait l'air calme, puis le demon a montre sa vraie couleur.",
+          words: "Solaire, attachante, fun.",
+          goodbye: "Joyeux anniversaire Tamaaaaara, la fille qui peut pas s'empecher de bouger ses fesses a n'importe quelle melodie. Je te souhaite plein de bonnes choses avec cet age tres mature, et j'espere que ton retour en Guadeloupe se passera bien et que je te reverrai quand meme.",
+          emoji: "Danse."
+        }
+      },
+      {
+        id: "marilou",
+        name: "Marilou",
+        color: "#8d74ff",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/marie-lou.png",
+        answers: {
+          favorite: "Son ouverture d'esprit.",
+          memory: "Tres sympathique dis donc.",
+          words: "Bonne aura, ouverte d'esprit, energique.",
+          goodbye: "Coucou Tam, joyeux anniversaire. Profite, profite, et je regrette mon absence, donc t'as interet a bien profiter parce que 25 ans c'est le meilleur age et tu verras.",
+          emoji: "Bisou."
+        }
+      },
+      {
+        id: "naima",
+        name: "Naima",
+        color: "#8bc8ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/naima.png",
+        answers: {
+          favorite: "Son authenticite.",
+          memory: "Une vraie baddie.",
+          words: "Beautiful, solaire, forte.",
+          goodbye: "Happy birthdayyy Tam. On ne se connait que depuis quelques mois mais c'est un plaisir pour moi de te connaitre. Aussi belle a l'interieur qu'a l'exterieur, et je te souhaite tout le meilleur pour la suite de tes projets.",
+          emoji: "Nails."
+        }
+      },
+      {
+        id: "nek",
+        name: "Indira",
+        color: "#ff88d0",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/nek.png",
+        answers: {
+          favorite: "Garde ton humour.",
+          memory: "Pas si calme que ca derriere son joli visage et ses lunettes.",
+          words: "Solaire, sexy, mignonne.",
+          goodbye: "Joyeux anniversaire young lady. J'espere que tu auras la twerkinite toute ta vie, pas de probleme de dos, et que tu garderas toujours ce sourire magnifique et ce mood enjoue peu importe les epreuves de la vie.",
+          emoji: "Arc-en-ciel."
+        }
+      },
+      {
+        id: "shishi",
+        name: "Shishi",
+        color: "#75c2ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/shyb.png",
+        answers: {
+          favorite: "Elle est solaire.",
+          memory: "Joie de vivre.",
+          words: "Ouverte d'esprit, drole, solaire.",
+          goodbye: "T'as une force incroyable, meme quand la vie est pas douce tu continues d'avancer avec ce sourire et cette energie qui font du bien. Je te souhaite un bon retour au peyi, et j'ai le feeling qu'on se recroisera tres bientot.",
+          emoji: "Sourire gene."
+        }
+      },
+      {
+        id: "cecile",
+        name: "Cecile",
+        color: "#ffc27a",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/kawai.png",
+        answers: {
+          favorite: "Sa joie de vivre contagieuse.",
+          memory: "Jolie.",
+          words: "Solaire, stylee, girly spice.",
+          goodbye: "On ne se connait que depuis un an. Cependant, I looked forward to seeing you every time. You're lovely and so fun to be around. Joyeux anniversaire.",
+          emoji: "Fantome."
+        }
+      },
+      {
+        id: "pussy-nigga",
+        name: "Serena",
+        color: "#d39bff",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/serena.png",
+        answers: {
+          favorite: "Qu'elle ne se laisse pas faire.",
+          memory: "Elle est super gentille et sensible.",
+          words: "TDAH, drole, du caractere.",
+          goodbye: "J'ai tout dit dans mes fleurs mais merci a toi d'avoir compose ma vie. C'est la qu'on se rend compte de la valeur d'une amitie quand elle est inconditionnelle. J'espere pour toi aussi que tu trouveras une paix interieure.",
+          emoji: "Girafe."
+        }
+      },
+      {
+        id: "irina",
+        name: "Irina",
+        color: "#8fe0ff",
+        avatarPlaceholder: "hex",
+        sprite: "assets/sprites/shabine1.png",
+        answers: {
+          favorite: "Son optimisme.",
+          memory: "Rah ouaiiiiiiiis chabine ou ka ban mwen-y.",
+          words: "Solaire, belle, hyper drole.",
+          goodbye: "Tamaraaaaaaaaaaaaaaaaa. A peine trois ans qu'on se connait et j'ai l'impression que ca fait tellement plus longtemps. On a tellement rigole, pleure, fait la fete et joue a minecraft ensemble. Gwo bo siwo ma copine-cousine, on se voit le mois prochain.",
+          emoji: "Lunettes."
+        }
+      },
+      {
+        id: "yves",
+        name: "Yves",
+        color: "#ffe08a",
+        avatarPlaceholder: "diamond",
+        sprite: "assets/sprites/yves.png",
+        answers: {
+          favorite: "Son rire funny ass nigga.",
+          memory: "On bel ti fanm i ka viv lavi, et qui mange pimente.",
+          words: "Funny Biatch Nigga.",
+          goodbye: "Malgre ses lots de problemes, tu trouves le moyen de vivre et d'apprecier la vie intensement. Continue a vivre, progresser, aimer et vivre la vie que tu as. J'aime qui tu es, j'aime qui tu deviendras, et je te dis joyeux anniversaire mafia.",
+          emoji: "Soleil."
+        }
+      },
+      {
+        id: "noah",
+        name: "Noah",
+        color: "#9fd0ff",
+        avatarPlaceholder: "circle",
+        sprite: "assets/sprites/inconnu-beau-gosse-dubai.png",
+        answers: {
+          favorite: "Sa joie de vivre.",
+          memory: "Good vibe.",
+          words: "Rayonnante, aimante, folle.",
+          goodbye: "Tamara, tu es un petit rayon de soleil qui apporte toujours la bonne humeur. Je suis fier de te considerer comme une amie dans mon cercle. Peu importe ou tu seras, je serai la pour toi. Je te souhaite un tres bel anniversaire.",
+          emoji: "Nails."
+        }
+      }
+    );
 
     const screens = {
       group: document.getElementById("screen-group"),
@@ -820,7 +998,7 @@
 
     function getButtonSpritePath(spritePath) {
       if (!spritePath) return null;
-      return spritePath.replace(/\.png$/i, "-face.PNG");
+      return spritePath.replace(/\.png$/i, "-face.png");
     }
 
     function createSprite(person, options = {}) {
@@ -846,23 +1024,24 @@
 
     function renderCrowd() {
       crowdWrap.innerHTML = "";
-      const splitIndex = Math.ceil(people.length / 2);
-      people.forEach((person, index) => {
-        const card = document.createElement("div");
-        const isBackRow = index < splitIndex;
-        card.className = `crowd-card ${isBackRow ? "back-row" : "front-row"}`;
-        const shiftPattern = [-44, -28, -14, 6, -34, -18, -38, -22, -8, 12, -26, -12];
-        const idleRisePattern = [2, 4, 3, 5, 2, 3, 5, 3, 4, 2, 4, 3];
-        const idleDropPattern = [1, 1, 1, 2, 1, 1, 2, 1, 2, 1, 1, 1];
-        card.style.setProperty("--crowd-shift", `${shiftPattern[index % shiftPattern.length]}px`);
-        card.style.setProperty("--crowd-scale", isBackRow ? "0.95" : "1");
-        card.style.setProperty("--idle-rise", `${idleRisePattern[index % idleRisePattern.length]}px`);
-        card.style.setProperty("--idle-drop", `${idleDropPattern[index % idleDropPattern.length]}px`);
-        card.style.setProperty("--idle-duration", `${3.2 + (index % 6) * 0.34}s`);
-        card.style.setProperty("--idle-delay", `${(index % 9) * -0.33}s`);
-        card.appendChild(createSprite(person));
+      const firstRowCount = Math.ceil(people.length / 2);
+      const rows = [
+        people.slice(0, firstRowCount),
+        people.slice(firstRowCount)
+      ];
 
-        crowdWrap.appendChild(card);
+      rows.forEach((rowPeople) => {
+        const row = document.createElement("div");
+        row.className = "crowd-row";
+
+        rowPeople.forEach((person) => {
+          const card = document.createElement("div");
+          card.className = "crowd-card";
+          card.appendChild(createSprite(person));
+          row.appendChild(card);
+        });
+
+        crowdWrap.appendChild(row);
       });
     }
 
@@ -899,8 +1078,8 @@
     function renderSelectedPerson() {
       const person = getPerson(selectedPersonId);
       selectedSprite.className = person.sprite
-        ? "character-sprite real-sprite bounce"
-        : `character-sprite placeholder ${shapeClass(person.avatarPlaceholder)} bounce`;
+        ? "character-sprite real-sprite"
+        : `character-sprite placeholder ${shapeClass(person.avatarPlaceholder)}`;
       selectedSprite.innerHTML = "";
       if (person.sprite) {
         const image = document.createElement("img");
@@ -911,8 +1090,10 @@
         selectedSprite.style.setProperty("--char-color", person.color);
       }
       selectedName.textContent = person.name;
-      dialogBubble.textContent = `${person.name} est pret·e pour l’interview.`;
+      dialogBubble.textContent = person.answers.goodbye;
       dialogBubble.classList.remove("visible");
+      void dialogBubble.offsetWidth;
+      dialogBubble.classList.add("visible");
     }
 
     function showScreen(name) {
